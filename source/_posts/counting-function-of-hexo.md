@@ -5,11 +5,13 @@ date: 2018-09-09 19:25:05
 
 tag:
     - Hexo
-    - counting_function
-    - 
+        - counting_function
+        - 
 categories:
     - Manual
 ----
+
+
 
 **简述**：本文简练描述`Hexo`博客如何开启自带的阅读计数功能。
 

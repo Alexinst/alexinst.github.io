@@ -1,5 +1,5 @@
 ---
-title: 【PyQt5】2. QPushButton 的 signals 和 slots
+title: 「PyQt5」2. QPushButton 的 signals 和 slots
 
 date: 2018-06-17 09:53:51
 

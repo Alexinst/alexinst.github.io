@@ -1,5 +1,5 @@
 ---
-title: 【C++】数据类型 char 转化为 string
+title: 「C++」数据类型 char 转化为 string
 date: 2018-09-30 22:00:26
 tags:
     - C++

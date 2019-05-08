@@ -1,5 +1,5 @@
 ---
-title: 【MySQL】MySQL 安装及 SQL 入坑
+title: 「SQL」安装 MySQL
 date: 2019-05-02 20:59:22
 tags:
 	- SQL
@@ -49,7 +49,7 @@ categories:
 6. 启动：`net start mysql`。
 7. 停止：`net stop mysql`。
 
-## 简单命令
+## MySQL 初始化
 命令行窗口目录： `D:\Program Files\MySQL\bin`
 1. 登录：`mysql -u root -p`。输入之前记下的 temporary password，回车之后就登录了。
 2. **修改密码（超难）**：`set password for 'root'@'localhost' = 'xxxxxxx;'`。**不要忘记`;` 结尾**。

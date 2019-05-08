@@ -1,5 +1,5 @@
 ---
-title: 【PyQt5】1. QtWidgets 模块中 Class 的通用函数/方法
+title: 「PyQt5」1. QtWidgets 模块中 Class 的通用函数/方法
 
 date: 2018-06-17 09:00:31
 

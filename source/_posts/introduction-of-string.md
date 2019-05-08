@@ -1,5 +1,5 @@
 ---
-title: 【C++】string 成员函数
+title: 「C++」string 成员函数
 
 date: 2018-10-01 16:47:43
 
@@ -88,7 +88,7 @@ categories:
     - `string::find_last_not_of` – `*this`中的不属于指定字符集合的末个字符
     - `string::compare` – 与参数字符串比较
 - 常量值
-    
+  
     - `string::npos` – 表示“未找到”，值为`static const unsigned -1`
 - 非成员的有关的全局函数
     - `std::operator+` – 字符串连接

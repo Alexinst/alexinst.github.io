@@ -11,7 +11,7 @@ categories:
     - Manual
 ---
 
-**简述**：`win7`系统下安装`Nodejs`莫名失败（Node.js Setup Wizard ended prematurely），我经过搜索和尝试，最后终于安装成功。为此耗费了足足五个小时的时间，不记录下来的话，自己都要打自己。。。
+**简述**：`win7`系统下安装`Nodejs`莫名失败（Node.js Setup Wizard ended prematurely），我经过搜索和尝试，最后终于安装成功。为此耗费了足足五个小时的时间。。。
 
 <!-- more -->
 <br/>
