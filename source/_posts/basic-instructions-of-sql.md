@@ -129,6 +129,7 @@ WHERE
 
 ## 语句解释
 `GROUP BY`语句根据一个或多个列对结果集进行分组。
+
 ```SQL
 SELECT 
     attribute_name
@@ -158,8 +159,12 @@ GROUP BY
 HAVING 
     aggregate_function(attribute_name) operator value
 ```
+<br />
+
 # 排序语句 ORDER BY
+
 `ORDER BY`语句用于根据指定的列对结果集进行排序。默认按照升序，添加`DESC`关键字可改成降序。
+
 ## 正序、逆序
 `SQL`默认按照升序（`ASC`），添加`DESC`关键字可改成降序。
 
