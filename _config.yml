@@ -98,7 +98,6 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  # repo: https://alexinst:git10248192!@github.com/Alexinst/alexinst.github.io.git
   repo: git@github.com:alexinst/alexinst.github.io
   branch: master
   
