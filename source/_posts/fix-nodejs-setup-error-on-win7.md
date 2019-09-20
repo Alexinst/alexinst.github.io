@@ -1,5 +1,5 @@
 ---
-title: Win7 下安装 Nodejs
+title: 「NodeJs」Win7 下安装 NodeJs
 
 date: 2018-10-01 21:43:23
 
@@ -11,7 +11,7 @@ categories:
     - Manual
 ---
 
-**简述**：`win7`系统下安装`Nodejs`莫名失败（Node.js Setup Wizard ended prematurely），我经过搜索和尝试，最后终于安装成功。为此耗费了足足五个小时的时间。。。
+**简述**：`win7`系统下安装`NodeJs`莫名失败（Node.js Setup Wizard ended prematurely），我经过搜索和尝试，最后终于安装成功。为此耗费了足足五个小时的时间。。。
 
 <!-- more -->
 <br/>
@@ -60,5 +60,9 @@ npm -v
 
 　　若不是，那就。。。
 
-　　以上！
+<br />
+
+
+
+**以上**
 

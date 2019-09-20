@@ -1,5 +1,5 @@
 ----
-title: Hexo 开启阅读计数功能
+title: 「Hexo」Hexo 开启阅读计数功能
 
 date: 2018-09-09 19:25:05
 
@@ -8,12 +8,13 @@ tag:
         - counting_function
         - 
 categories:
+
     - Manual
+   
 ----
 
 
-
-**简述**：本文简练描述`Hexo`博客如何开启自带的阅读计数功能。
+**简述**：本文简练描述 `Hexo` 博客如何开启自带的阅读计数功能。
 
 <!-- more -->
 <br />
@@ -66,5 +67,9 @@ leancloud_visitors:
 - 放弃设置web安全域名
 
 我选择第二个办法，毕竟第一个办法失败了，毕竟只是个小破站。所以，在`NexT`主题的`_config.yml`中将`leancloud_visitors`的`security`设置为`false`。
+
+<br />
+
+
 
 **以上！**
