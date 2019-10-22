@@ -1,5 +1,5 @@
 ---
-title: 「TensorFlow - 1」安装 CUDA 和 cuDNN
+title: 「TensorFlow」1. 安装 CUDA 和 cuDNN
 date: 2019-10-22 21:01:37
 tags:
     - CUDA
@@ -9,7 +9,7 @@ categories:
     - TensorFlow
 ---
 
-**简述：**为了编译 `TensorFlow` 的 `C++ API`，再次踏上 `CUDA` 之旅。这是一条不归路，但还是必须做个整理记录，因为这也许不是最后一次。
+**简述：**为了编译 `TensorFlow C++`，再次踏上 `CUDA` 之旅。这是一条不归路，但还是必须做个整理记录，因为这s也许不是最后一次。
 
 <!-- more -->
 <br />
