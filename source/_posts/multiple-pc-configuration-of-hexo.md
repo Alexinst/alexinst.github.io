@@ -54,6 +54,7 @@ $ git push origin hexo				// 推送到 Github Page 仓库的 hexo 分支
 ```shell
 $ git clone -b hexo git@github.com:USERNAME/USERNAME.github.io.git DIRNAME/
 $ cd DIRNAME
+$ npm install -g hexo-cli
 $ npm install						// 这里不需要 npm init
 ```
 
