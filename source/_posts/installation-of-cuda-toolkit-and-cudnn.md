@@ -9,7 +9,7 @@ categories:
     - TensorFlow
 ---
 
-**简述：**为了编译 `TensorFlow C++`，再次踏上 `CUDA` 之旅。这是一条不归路，但还是必须做个整理记录，因为这s也许不是最后一次。
+**简述：**为了编译 `TensorFlow C++`，再次踏上 `CUDA` 之旅。这是一条不归路，但还是必须做个整理记录，因为这也许不是最后一次。
 
 <!-- more -->
 <br />
@@ -264,4 +264,17 @@ categories:
 
 <br />
 
+
+
+# 系列
+
+1. {% post_link installation-of-cuda-toolkit-and-cudnn 「TensorFlow」1. 安装 CUDA 和 cuDNN %}
+2. {% post_link build-tensorflow-cpp 「TensorFlow」2. 编译 TensorFlow C++  %}
+
+
+
+<br />
+
 **以上！**
+
+<br />
