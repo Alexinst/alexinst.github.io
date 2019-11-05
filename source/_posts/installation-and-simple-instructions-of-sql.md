@@ -1,5 +1,5 @@
 ---
-title: 「SQL」安装 MySQL
+title: 「SQL」1. 安装 MySQL
 date: 2019-05-02 20:59:22
 tags:
 	- SQL
@@ -110,7 +110,7 @@ categories:
 
 <br />
 
----------------------------------------------------------- **之后就基本是废话了** ----------------------------------------------------------
+
 
 # 数据库基础知识
 
@@ -140,6 +140,7 @@ categories:
 >外键：用于关联两个表。
 
 <br />
+
 # MySQL数据库管理系统
 ## 数据库
 >数据库: 数据库是一些关联表的集合。
@@ -150,8 +151,18 @@ categories:
 ## 存储过程
 >为以后的使用而保存的一条或多条MySQL语句的集合。
 
+<br />
+
+# 系列
+
+1. {% post_link installation-and-simple-instructions-of-sql 「SQL」1. 安装 MySQL %}
+2. {% post_link basic-instructions-of-sql 「SQL」2. SQL格式规范、基本命令与范例 %} 
+3. {% post_link data-types-of-MySQL 「SQL」3. MySQL 的数据类型  %}
+
 
 
 <br />
 
 **以上！**
+
+<br />

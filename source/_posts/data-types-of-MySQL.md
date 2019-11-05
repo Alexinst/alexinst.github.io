@@ -1,5 +1,5 @@
 ---
-title: 「SQL」MySQL 的数据类型
+title: 「SQL」3. MySQL 的数据类型
 date: 2019-06-06 15:44:34
 tags:
 	- SQL
@@ -94,9 +94,21 @@ categories:
   - YYYY-MM-DD 
   - YY-MM-DD
 
+<br />
+
+
+
+# 系列
+
+1. {% post_link installation-and-simple-instructions-of-sql 「SQL」1. 安装 MySQL %}
+2. {% post_link basic-instructions-of-sql 「SQL」2. SQL格式规范、基本命令与范例 %} 
+3. {% post_link data-types-of-MySQL 「SQL」3. MySQL 的数据类型  %}
+
 
 
 <br />
 
-以上！
+**以上！**
+
+<br />
 

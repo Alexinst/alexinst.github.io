@@ -1,5 +1,5 @@
 ---
-title: 「SQL」SQL格式与基本指令
+title: 「SQL」2. SQL格式规范、基本命令与范例
 date: 2019-05-08 19:56:57
 tags:
 	- SQL
@@ -175,7 +175,7 @@ HAVING
 
 # 简单实操
 ## 查找重复的电子邮箱（难度：简单）
-1. 创建表，表名accounts。再输入records。
+1. 创建表，表名 `accounts`，再添加 `records`。
     ```SQL
     CREATE TABLE email (
 	ID INT NOT NULL PRIMARY KEY,
@@ -206,7 +206,7 @@ HAVING
 
 ## 查找大国
 
-1. 建表，表名world。再输入records。
+1. 建表，表名 `world`，再添加 `records` 。
 	```SQL
 	CREATE TABLE World (
 	name VARCHAR(50) NOT NULL,
@@ -227,7 +227,7 @@ HAVING
 	INSERT INTO World
 	  VALUES('Angola','Africa',1246700,20609294,100990000);
 	```
-2. 查找大国（条件：国家的面积超过300万平方公里，或者(人口超过2500万并且gdp超过2000万)）
+2. 查找大国（条件：国家的面积超过300万平方公里，或者(人口超过2500万并且 `gdp` 超过2000万)）
 	```SQL
 	SELECT
 	    name, population, area
@@ -239,8 +239,19 @@ HAVING
 	Here we go!
 	![在这里插入图片描述](https://img-blog.csdnimg.cn/20190402194829347.png)
 
+<br />
+
+# 系列
+
+1. {% post_link installation-and-simple-instructions-of-sql 「SQL」1. 安装 MySQL %}
+2. {% post_link basic-instructions-of-sql 「SQL」2. SQL格式规范、基本命令与范例 %} 
+3. {% post_link data-types-of-MySQL 「SQL」3. MySQL 的数据类型  %}
+
 
 
 <br />
 
-以上！
+**以上！**
+
+<br />
+
