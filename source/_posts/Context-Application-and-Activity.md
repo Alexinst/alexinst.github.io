@@ -67,20 +67,23 @@ java.lang.object
          *↳ android.app.Application
 ```
 
-可以看出，`Activity` 和 `Application` 间接继承了 `Context`，那这两者各自有什么特点，之间又有什么区别呢？
+可以看出，`Activity` 和 `Application` 间接继承了 `Context`，那这两者是什么，之间又有什么区别呢？
 
-## 特点
+## 是什么
 
-1. 当应用程序的进程启动时，第一个实例化的类就是 `Application`。`Application` 是一个单例（`singleton`）的类，即一个运行的应用只有 `Application` 或其子类的一个实例。
-2. `Activity` 的基本任务是创建一个 Window，用于显示 调用方法 `setContentView(View)` 生成的 `UI`。
-
-<br />
+1. `Activity` 是与用户交互的入口点。它表示拥有界面的单个屏幕。例如，电子邮件应用可能有一个显示新电子邮件列表的 `Activity`、一个用于撰写电子邮件的 `Activity` 以及一个用于阅读电子邮件的 `Activity`。尽管这些 `Activity` 通过协作在电子邮件应用中形成一种紧密结合的用户体验，但每个 `Activity` 都独立于其他 `Activity` 而存在。因此，其他应用可以启动其中任何一个 `Activity`（如果电子邮件应用允许）。例如，相机应用可以启动电子邮件应用内用于撰写新电子邮件的 `Activity`，以便用户共享图片。`Activity` 有助于完成系统和应用程序之间的以下重要交互：
+   - 追踪用户当前关心的内容（屏幕上显示的内容），以确保系统继续运行托管 `Activity` 的进程。
+   - 了解先前使用的进程包含用户可能返回的内容（已停止的 `Activity`），从而更优先保留这些进程。
+   - 帮助应用处理终止其进程的情况，以便用户可以返回已恢复其先前状态的 `Activity`。
+   - 提供一种途径，让应用实现彼此之间的用户流，并让系统协调这些用户流。（此处最经典的示例是共享。）
+2. `Application` 或其子类是保存应用全局信息的类。当应用程序的进程启动时，第一个实例化的类就是 `Application`。`Application` 是一个单例（`singleton`）的类，即一个运行的应用只有 `Application` 或其子类的一个实例。
+   不能在 `Application` 中保存可变的共享数据，因为你不知道它会被谁改变。更好的选择是保存在 文件、`SharedPreferences` 或 `SQLite` 中。
 
 ## 区别
 
-1. 有不同的生命周期。`Application Context` 存在于应用程序的运行期间，而 `Activity Context` 则与 `Activity ` 的实例”同生共死“。
+2. 有不同的生命周期。`Application Context` 存在于应用程序的运行期间，而 `Activity Context` 则与 `Activity ` 的实例”同生共死“。
 
-2. 有不完全相同的应用场景。
+3. 有不完全相同的应用场景。
 
    |                                                       | Application | Activity |
    | ----------------------------------------------------- | :---------: | :------: |
@@ -132,6 +135,8 @@ java.lang.object
 - [Application - Android]( https://developer.android.com/reference/android/app/Application )
 - [Activity - Android](https://developer.android.com/reference/android/app/Activity)
 - [View - Android](https://developer.android.com/reference/android/view/View)
+- [应用基础知识 - Android]( https://developer.android.com/guide/components/fundamentals )
+- [Understanding the Android Application Class - CodePath]( https://github.com/codepath/android_guides/wiki/Understanding-the-Android-Application-Class )
 - [Android 中用 getApplicationContext() 会不会避免某些内存泄漏问题 - ZhiHu](https://www.zhihu.com/question/34007989) 
 - [如何理解Context? - ZhiHu]( https://zhuanlan.zhihu.com/p/27163977 )
 - [Which Context should I use in Android? - Medium]( https://medium.com/@ali.muzaffar/which-context-should-i-use-in-android-e3133d00772c )
