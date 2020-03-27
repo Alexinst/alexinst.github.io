@@ -1,5 +1,5 @@
 ---
-title: differences-of-process-and-thread
+title: 「OS」进程和线程的区别
 date: 2020-03-27 11:24:39
 tags:
 	- OS
@@ -56,3 +56,11 @@ categories:
 
 - [线程和进程的区别是什么？ - ZhiHu](https://www.zhihu.com/question/25532384/answer/81152571)
 - [What is the difference between a process and a thread? - Quora](https://www.quora.com/What-is-the-difference-between-a-process-and-a-thread#)
+
+
+
+<br />
+
+以上！
+
+<br />
