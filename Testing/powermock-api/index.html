@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pied-piper_.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pied-piper_.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/pied-piper_.png?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简述：这篇文章主要是列出 Android 测试框架 PowerMock 的常用 API 和一些注解。其中某些 API 其实并没有用过，所以不能保证全文毫无错误。在此之前，建议先阅读一些入门文章，了解单元测试是什么和为什么做单元测试。">
+<meta name="keywords" content="Android,testing,PowerMock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Testing」测试框架 PowerMock 使用手册">
+<meta property="og:url" content="https://alexinst.github.io/Testing/powermock-api/index.html">
+<meta property="og:site_name" content="Try For Fun">
+<meta property="og:description" content="简述：这篇文章主要是列出 Android 测试框架 PowerMock 的常用 API 和一些注解。其中某些 API 其实并没有用过，所以不能保证全文毫无错误。在此之前，建议先阅读一些入门文章，了解单元测试是什么和为什么做单元测试。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-14T00:29:44.358Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Testing」测试框架 PowerMock 使用手册">
+<meta name="twitter:description" content="简述：这篇文章主要是列出 Android 测试框架 PowerMock 的常用 API 和一些注解。其中某些 API 其实并没有用过，所以不能保证全文毫无错误。在此之前，建议先阅读一些入门文章，了解单元测试是什么和为什么做单元测试。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://alexinst.github.io/Testing/powermock-api/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>「Testing」测试框架 PowerMock 使用手册 | Try For Fun</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Try For Fun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">心安之处，便是吾乡！</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://alexinst.github.io/Testing/powermock-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="There is Alex's learning log!">
+      <meta itemprop="image" content="/images/amura.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Try For Fun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Testing」测试框架 PowerMock 使用手册
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-16 14:19:10" itemprop="dateCreated datePublished" datetime="2020-06-16T14:19:10+08:00">2020-06-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-06-14 08:29:44" itemprop="dateModified" datetime="2021-06-14T08:29:44+08:00">2021-06-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Testing/" itemprop="url" rel="index"><span itemprop="name">Testing</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Testing/powermock-api/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/Testing/powermock-api/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/Testing/powermock-api/" class="leancloud_visitors" data-flag-title="「Testing」测试框架 PowerMock 使用手册">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>简述</strong>：这篇文章主要是列出 Android 测试框架 <code>PowerMock</code> 的常用 <code>API</code> 和一些注解。其中某些 <code>API</code> 其实并没有用过，所以不能保证全文毫无错误。在此之前，建议先阅读一些入门文章，了解单元测试是什么和为什么做单元测试。</p>
+<a id="more"></a>
+
+<br>
+
+
+
+<h1 id="1-注解"><a href="#1-注解" class="headerlink" title="1 注解"></a>1 注解</h1><h2 id="1-1-JUnit-RunWith"><a href="#1-1-JUnit-RunWith" class="headerlink" title="1.1 [JUnit] RunWith"></a>1.1 [JUnit] RunWith</h2><blockquote>
+<p>When a class is annotated with <code>@RunWith</code> or extends a class annotated with <code>@RunWith</code>, JUnit will invoke the class it references to run the tests in that class instead of the runner built into JUnit. We added this feature late in development. While it seems powerful we expect the runner API to change as we learn how people really use it. Some of the classes that are currently internal will likely be refined and become public.</p>
+</blockquote>
+<p>简单地说，JUnit 会使用 <code>@RunWith</code> 中的 Runner 类，代替 JUnit 的内建 Runner 来运行测试。</p>
+<p>参考</p>
+<ul>
+<li><a href="https://junit.org/junit4/javadoc/latest/org/junit/runner/RunWith.html" target="_blank" rel="noopener">Annotation Type RunWith</a></li>
+</ul>
+<h2 id="1-2-PowerMock-PrepareForTest"><a href="#1-2-PowerMock-PrepareForTest" class="headerlink" title="1.2 [PowerMock] PrepareForTest"></a>1.2 [PowerMock] PrepareForTest</h2><blockquote>
+<p>Tells PowerMock to prepare certain classes for testing. Classes needed to be defined using this annotation are typically those that needs to be byte-code manipulated. This includes final classes, classes with final, private, static or native methods that should be mocked and also classes that should be return a mock object upon instantiation.</p>
+</blockquote>
+<p>翻译过来，<code>PrepareForTest</code> 的作用就是提醒 <code>PowerMock</code> 对待测试的类做准备。这些待测试的类可以是：</p>
+<ol>
+<li><p>final 类</p>
+</li>
+<li><p>类中有需要 mock 的 final/private/static/native 方法</p>
+</li>
+<li><p>希望实例后返回的是某个类的 mock 对象</p>
+</li>
+</ol>
+<p>参考</p>
+<ul>
+<li><a href="https://javadoc.io/doc/org.powermock/powermock-core/1.6.5/org/powermock/core/classloader/annotations/PrepareForTest.html" target="_blank" rel="noopener">Annotation Type PrepareForTest</a></li>
+</ul>
+<h2 id="1-3-PowerMock-PowerMockIgnore"><a href="#1-3-PowerMock-PowerMockIgnore" class="headerlink" title="1.3 [PowerMock] PowerMockIgnore"></a>1.3 [PowerMock] PowerMockIgnore</h2><blockquote>
+<p>This annotation tells PowerMock to defer the loading of classes with the names supplied to <a href="https://www.javadoc.io/static/org.powermock/powermock-core/1.7.1/org/powermock/core/classloader/annotations/PowerMockIgnore.html#value--" target="_blank" rel="noopener"><code>value()</code></a> to the system classloader.</p>
+<p>This is useful in situations when you have e.g. a test/assertion utility framework (such as something similar to Hamcrest) whose classes must be loaded by the same classloader as EasyMock, JUnit and PowerMock etc.</p>
+<p>Note that the <a href="https://www.javadoc.io/static/org.powermock/powermock-core/1.7.1/org/powermock/core/classloader/annotations/PrepareForTest.html" target="_blank" rel="noopener"><code>PrepareForTest</code></a> and <a href="https://www.javadoc.io/static/org.powermock/powermock-core/1.7.1/org/powermock/core/classloader/annotations/PrepareOnlyThisForTest.html" target="_blank" rel="noopener"><code>PrepareOnlyThisForTest</code></a> will have precedence over this annotation. This annotation will have precedence over the <a href="https://www.javadoc.io/static/org.powermock/powermock-core/1.7.1/org/powermock/core/classloader/annotations/PrepareEverythingForTest.html" target="_blank" rel="noopener"><code>PrepareEverythingForTest</code></a> annotation.</p>
+</blockquote>
+<p>PowerMock 会延迟 system classloader 对在 <code>PowerMockIgnore</code> 中的类的加载。如果测试框架的类需要由 JUnit/EasyMock/PowerMock 的类加载器来加载，就可以用上 <code>PowerMockIgnore</code> 了。</p>
+<p>不过，<code>PrepareForTest</code> 和 <code>PrepareOnlyThisForTest</code> 的优先级比 <code>PowerMockIgnore</code> 高。</p>
+<p>参考</p>
+<ul>
+<li><a href="https://www.javadoc.io/doc/org.powermock/powermock-core/1.7.1/org/powermock/core/classloader/annotations/PowerMockIgnore.html" target="_blank" rel="noopener">Annotation Type PowerMockIgnore</a></li>
+</ul>
+<br>
+
+<h1 id="2-构造对象"><a href="#2-构造对象" class="headerlink" title="2 构造对象"></a>2 构造对象</h1><h2 id="2-1-mock"><a href="#2-1-mock" class="headerlink" title="2.1 mock"></a>2.1 mock</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T object = PowerMockito.mock(Class&lt;? extends Object&gt; type);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-spy"><a href="#2-2-spy" class="headerlink" title="2.2 spy"></a>2.2 spy</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T object = PowerMockito.spy(T object);</span><br></pre></td></tr></table></figure>
+
+<p>参考</p>
+<ul>
+<li><p><a href="https://www.baeldung.com/mockito-spy" target="_blank" rel="noopener">Mockito – Using Spies</a></p>
+</li>
+<li><p><a href="https://stackoverflow.com/questions/15052984/what-is-the-difference-between-mocking-and-spying-when-using-mockito" target="_blank" rel="noopener">What is the difference between mocking and spying when using Mockito - StackOverflow</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/softidea/p/4204389.html" target="_blank" rel="noopener">Mockito 的 mock 和 spy</a></p>
+</li>
+<li><p><a href="https://matthung0807.blogspot.com/2018/08/mockito-mockspy.html" target="_blank" rel="noopener">Mockito Mock 與 Spy 的差別</a></p>
+</li>
+</ul>
+<br>
+
+<h1 id="3-访问-修改非公有成员"><a href="#3-访问-修改非公有成员" class="headerlink" title="3 访问/修改非公有成员"></a>3 访问/修改非公有成员</h1><h2 id="3-1-访问非-public-成员"><a href="#3-1-访问非-public-成员" class="headerlink" title="3.1 访问非 public 成员"></a>3.1 访问非 public 成员</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassName obj = Whitebox.getInternalState(Object object, String fieldName);</span><br></pre></td></tr></table></figure>
+
+<p><strong>PS：假设类名为 Example，访问静态成员时，object 就是 Example.class。不止是访问非公有成员，其他与 static 有关的操作像是修改静态成员和调用静态方法等，object 都是 Example.class。</strong></p>
+<h2 id="3-2-修改非-public-成员"><a href="#3-2-修改非-public-成员" class="headerlink" title="3.2 修改非 public 成员"></a>3.2 修改非 public 成员</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Whiterbox.setInternalState(Object object, String fieldName, Object value);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="4-调用-执行方法"><a href="#4-调用-执行方法" class="headerlink" title="4 调用/执行方法"></a>4 调用/执行方法</h1><h2 id="4-1-public-方法"><a href="#4-1-public-方法" class="headerlink" title="4.1 public 方法"></a>4.1 public 方法</h2><p>直接调用就行了鸭！</p>
+<h2 id="4-2-非-public-方法"><a href="#4-2-非-public-方法" class="headerlink" title="4.2 非 public 方法"></a>4.2 非 public 方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">ClassName toBeReturned = Whitebox.invokeMethod(Object object, String methodToExecute, Object... arguments);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无返回值</span></span><br><span class="line">Whitebox.invokeMethod(Object object, String methodToExecute, Object... arguments);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-调用-mock-对象真正的方法"><a href="#4-3-调用-mock-对象真正的方法" class="headerlink" title="4.3 调用 mock 对象真正的方法"></a>4.3 调用 mock 对象真正的方法</h2><p><strong>PS：先设置，再调用。设置 != 调用。另外，对象是通过 mock 得到的</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// public 方法</span></span><br><span class="line">Powermockito.doCallRealMethod().when(Object object).METHOD(Object... arguments);  <span class="comment">// 设置</span></span><br><span class="line">object.METHOD(Object... arguments);  <span class="comment">// 调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 非 public 方法</span></span><br><span class="line">Powermockito.doCallRealMethod().when(Object object, String methodToExecute, Object... arguments);</span><br><span class="line">Whitebox.invokeMethod(Object object, String methodToExecute, Object... arguments);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h1 id="5-设定方法返回值"><a href="#5-设定方法返回值" class="headerlink" title="5 设定方法返回值"></a>5 设定方法返回值</h1><p><strong>PS：此节的对象都是 mock / spy 对象。</strong></p>
+<h2 id="5-1-普通方法"><a href="#5-1-普通方法" class="headerlink" title="5.1 普通方法"></a>5.1 普通方法</h2><ol>
+<li><p>public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.doReturn(Object toBeReturned).when(mockedClass).METHOD(Object.. Arguments);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无返回值</span></span><br><span class="line">PowerMockito.doNothing().when(T mock).METHOD(Obecject... arguments);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>非 public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.doReturn(Object toBeReturned).when(T mock, String methodToExpect, Obecject... arguments);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无返回值</span></span><br><span class="line">PowerMockito.doNothing().when(T mock, String methodToExpect, Obecject... arguments);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="5-2-静态方法"><a href="#5-2-静态方法" class="headerlink" title="5.2 静态方法"></a>5.2 静态方法</h2><ol>
+<li><p>public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.mockStatic(Class&lt;?&gt; type, Class&lt;?&gt;... types)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有两种方式，第一种更接近正常逻辑</span></span><br><span class="line"><span class="comment">// 1)</span></span><br><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.when(T.STATIC_METHOD(Object... arguments)).thenReturn(Object toBeReturned);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2)</span></span><br><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.doReturn(...).when(T mock);</span><br><span class="line">T.STATIC_METHOD(Object... arguments);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>非 public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.mockStatic(Class&lt;?&gt; type, Class&lt;?&gt;... types)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1)</span></span><br><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.when(T.class, String methodToExpect, Obecject... arguments).thenReturn(Object toBeReturned);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2)</span></span><br><span class="line"><span class="comment">// 有返回值</span></span><br><span class="line">PowerMockito.doReturn(...).when(T mock);</span><br><span class="line">Whitebox.invokeMethod(T.class, String methodToExpect, Obecject... arguments);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无返回值</span></span><br><span class="line">PowerMock.doNothing().when(T.class, String methodToExpect, Object... arguments);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<br>
+对于 spy 对象来说，`when().doReturn()` 仍然会执行指定方法的真实代码逻辑，虽然返回结果被修改了；而 `doReturn().when().METHOD()`，就确实屏蔽了指定方法。
+
+<p>对于 mock 对象来说，这两者就没有区别。</p>
+<p>参考</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/44239404" target="_blank" rel="noopener">Mock/Spy 能力 - zhihu</a></li>
+<li><a href="https://stackoverflow.com/questions/7391806/use-doreturn-to-partially-mock-static-method-with-powermockito" target="_blank" rel="noopener">Use doReturn to partially mock static method with PowerMockito - StackOverflow</a></li>
+<li><a href="https://stackoverflow.com/questions/55913409/donothing-when-for-private-void-method-itself-is-invoking-method" target="_blank" rel="noopener">doNothing.When for private void method itself is invoking method - StackOverflow</a></li>
+<li><a href="http://sangsoonam.github.io/2019/02/04/mockito-doreturn-vs-thenreturn.html" target="_blank" rel="noopener">Mockito: doReturn vs thenReturn</a></li>
+</ul>
+<br>
+
+<h1 id="6-验证方法"><a href="#6-验证方法" class="headerlink" title="6 验证方法"></a>6 验证方法</h1><p><strong>PS: 先调用外层方法，再验证外层方法内调用过的方法</strong></p>
+<h2 id="6-1-普通方法"><a href="#6-1-普通方法" class="headerlink" title="6.1 普通方法"></a>6.1 普通方法</h2><ol>
+<li><p>public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 验证方法的调用和相关参数</span></span><br><span class="line">Mockito.verify(? Extends Object mock).METHOD(Object... arguments); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 只验证方法的调用，any()，any(T.class)，anyInt()，anyString()</span></span><br><span class="line">Mockito.verify(? Extends Object mock).METHOD(Mockito.any());  </span><br><span class="line"></span><br><span class="line"><span class="comment">// 验证方法没有被调用</span></span><br><span class="line">Mockito.verify(? Extends Object mock, Mockito.never()).METHOD(Object... arguments);</span><br></pre></td></tr></table></figure>
+
+<p>PS: </p>
+<ul>
+<li>以下的各类验证，对 Mockito.never() 的使用都可以参照这个例子。</li>
+<li>[Mockito.ArgumentMatchers.]any() 是一个匹配器，它可以匹配 null 和任意对象。但它不能匹配 Java 的基础类型（int，double，boolean），可以使用 anyInt()，anyDouble()，anyBoolean() 来匹配。</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p>非 public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.verifyPrivate(Object object).invoke(<span class="string">"MethodName"</span>, Argument);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="6-2-静态方法"><a href="#6-2-静态方法" class="headerlink" title="6.2 静态方法"></a>6.2 静态方法</h2><p><strong>PS: 每个待验证的静态方法都需要一个 <code>verifyStatic()</code>。</strong></p>
+<ol>
+<li><p>public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.mockStatic(Class&lt;?&gt; type);</span><br><span class="line"></span><br><span class="line">......  <span class="comment">// 调用方法</span></span><br><span class="line"></span><br><span class="line">PowerMockito.verifyStatic(Class&lt;T&gt; mockedClass, VerificationMode mode);</span><br><span class="line">T.STATIC_METHOD(Object... arguments);  <span class="comment">// 待验证的静态方法</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>非 public 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.mockStatic(Class&lt;?&gt; type);</span><br><span class="line"></span><br><span class="line">......  <span class="comment">// 调用方法</span></span><br><span class="line"></span><br><span class="line">PowerMockito.verifyStatic(Class&lt;T&gt; mockedClass, VerificationMode mode);</span><br><span class="line">Whitebox.invokeMethod(Class&lt;T&gt; mockedClass, String methodToExecute, Object... arguments);  <span class="comment">// 待验证的静态方法</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>参考</p>
+<ul>
+<li><a href="https://www.baeldung.com/mockito-verify" target="_blank" rel="noopener">Mockito Verify Cookbook</a></li>
+<li><a href="https://stackoverflow.com/questions/32976855/powermockito-verifystatic-problems" target="_blank" rel="noopener">PowerMockito.verifyStatic() problems - StackOverflow</a></li>
+<li><a href="https://github.com/powermock/powermock/wiki/MockStatic" target="_blank" rel="noopener">MockStatic - PowerMockito Docs</a></li>
+</ul>
+<br>
+
+<h1 id="7-抑制方法"><a href="#7-抑制方法" class="headerlink" title="7 抑制方法"></a>7 抑制方法</h1><p>首先，对测试类使用类级注解 <code>@PrepareForTest(ClassWithEvilConstructor.class)</code>。</p>
+<p>然后，分以下三种情况，实现对特定方法的抑制。</p>
+<h2 id="7-1-普通方法"><a href="#7-1-普通方法" class="headerlink" title="7.1 普通方法"></a>7.1 普通方法</h2>   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.method(Class&lt;?&gt; declaringClass, String methodName, Class&lt;?&gt;... parameterTypes));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.method(Class&lt;?&gt; declaringClass, String methodName);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2-静态方法"><a href="#7-2-静态方法" class="headerlink" title="7.2 静态方法"></a>7.2 静态方法</h2><p>先 mock 后 suppress</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PowerMockito.mockStatic(Class.class);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.method(Class&lt;?&gt; declaringClass, String methodName, Class&lt;?&gt;... parameterTypes));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.method(Class&lt;?&gt; declaringClass, String methodName);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-构造方法"><a href="#7-3-构造方法" class="headerlink" title="7.3 构造方法"></a>7.3 构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.constructor(Class&lt;T&gt; declaringClass, Class&lt;?&gt;... parameterTypes));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无参数</span></span><br><span class="line">PowerMockito.suppress(MemberMatcher.constructor(Class&lt;T&gt; declaringClass));</span><br></pre></td></tr></table></figure>
+
+<p>参考</p>
+<ul>
+<li><a href="https://github.com/powermock/powermock/wiki/Suppress-Unwanted-Behavior" target="_blank" rel="noopener">Suppress unwanted behavior - GitHub Wiki</a></li>
+<li><a href="https://stackoverflow.com/questions/16458981/how-to-suppress-and-verify-private-static-method-calls" target="_blank" rel="noopener">How to suppress and verify private static method calls?</a></li>
+</ul>
+<br>
+
+<h1 id="8-与-Robolectric-协同"><a href="#8-与-Robolectric-协同" class="headerlink" title="8 与 Robolectric 协同"></a>8 与 Robolectric 协同</h1><ul>
+<li><a href="https://github.com/robolectric/robolectric/wiki/Using-PowerMock" target="_blank" rel="noopener">https://github.com/robolectric/robolectric/wiki/Using-PowerMock</a></li>
+</ul>
+<br>
+
+<p><strong>以上！</strong></p>
+<br>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Alex</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://alexinst.github.io/Testing/powermock-api/" title="「Testing」测试框架 PowerMock 使用手册">https://alexinst.github.io/Testing/powermock-api/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      <div>    
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/testing/" rel="tag"># testing</a>
+          
+            <a href="/tags/PowerMock/" rel="tag"># PowerMock</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/memory-barriers-and-java-concurrency/" rel="next" title="「Java」内存屏障和 Java 并发">
+                <i class="fa fa-chevron-left"></i> 「Java」内存屏障和 Java 并发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Linux/no-ip-after-rebooting/" rel="prev" title="「Linux」VPS 重启后未分配 IP">
+                「Linux」VPS 重启后未分配 IP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div></footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/amura.jpeg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description">There is Alex's learning log!</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/alexinst" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:alexinst00@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://plus.google.com/106421471076489035186" target="_blank" title="Google"><i class="fa fa-fw fa-google"></i>Google</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Alex_Axis_" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-注解"><span class="nav-number">1.</span> <span class="nav-text">1 注解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-JUnit-RunWith"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 [JUnit] RunWith</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-PowerMock-PrepareForTest"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 [PowerMock] PrepareForTest</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-PowerMock-PowerMockIgnore"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 [PowerMock] PowerMockIgnore</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-构造对象"><span class="nav-number">2.</span> <span class="nav-text">2 构造对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-mock"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 mock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-spy"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 spy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-访问-修改非公有成员"><span class="nav-number">3.</span> <span class="nav-text">3 访问/修改非公有成员</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-访问非-public-成员"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 访问非 public 成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-修改非-public-成员"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 修改非 public 成员</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-调用-执行方法"><span class="nav-number">4.</span> <span class="nav-text">4 调用/执行方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-public-方法"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 public 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-非-public-方法"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 非 public 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-调用-mock-对象真正的方法"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 调用 mock 对象真正的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-设定方法返回值"><span class="nav-number">5.</span> <span class="nav-text">5 设定方法返回值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-普通方法"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 普通方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-静态方法"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 静态方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-验证方法"><span class="nav-number">6.</span> <span class="nav-text">6 验证方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-普通方法"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 普通方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-静态方法"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 静态方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-抑制方法"><span class="nav-number">7.</span> <span class="nav-text">7 抑制方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-普通方法"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 普通方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-静态方法"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 静态方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-构造方法"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 构造方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-与-Robolectric-协同"><span class="nav-number">8.</span> <span class="nav-text">8 与 Robolectric 协同</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'FOk46CCV2J7vbtpltEFoVoX6-9Nh9j0Va',
+        appKey: 'lqFp21BRczSXrTXsrp082wmn',
+        placeholder: 'Waiting for your insight!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FOk46CCV2J7vbtpltEFoVoX6-9Nh9j0Va", "lqFp21BRczSXrTXsrp082wmn");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.get('time'));
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

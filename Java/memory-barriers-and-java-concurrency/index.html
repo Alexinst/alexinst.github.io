@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN,en,default">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pied-piper_.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pied-piper_.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/pied-piper_.png?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简述：本文是 InfoQ 上一篇文章的译文。本人水平有限，对原文理解不足，行文中难免有不通顺之处。如有高见，还请不吝赐教。">
+<meta name="keywords" content="Java,concurrency,memory barrier,visibility">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Java」内存屏障和 Java 并发">
+<meta property="og:url" content="https://alexinst.github.io/Java/memory-barriers-and-java-concurrency/index.html">
+<meta property="og:site_name" content="Try For Fun">
+<meta property="og:description" content="简述：本文是 InfoQ 上一篇文章的译文。本人水平有限，对原文理解不足，行文中难免有不通顺之处。如有高见，还请不吝赐教。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-14T00:29:44.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Java」内存屏障和 Java 并发">
+<meta name="twitter:description" content="简述：本文是 InfoQ 上一篇文章的译文。本人水平有限，对原文理解不足，行文中难免有不通顺之处。如有高见，还请不吝赐教。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://alexinst.github.io/Java/memory-barriers-and-java-concurrency/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>「Java」内存屏障和 Java 并发 | Try For Fun</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Try For Fun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">心安之处，便是吾乡！</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://alexinst.github.io/Java/memory-barriers-and-java-concurrency/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="There is Alex's learning log!">
+      <meta itemprop="image" content="/images/amura.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Try For Fun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Java」内存屏障和 Java 并发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-05 16:06:46" itemprop="dateCreated datePublished" datetime="2020-04-05T16:06:46+08:00">2020-04-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-06-14 08:29:44" itemprop="dateModified" datetime="2021-06-14T08:29:44+08:00">2021-06-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Java/memory-barriers-and-java-concurrency/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/Java/memory-barriers-and-java-concurrency/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/Java/memory-barriers-and-java-concurrency/" class="leancloud_visitors" data-flag-title="「Java」内存屏障和 Java 并发">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>简述：</strong>本文是 InfoQ 上一篇<a href="https://www.infoq.com/articles/memory_barriers_jvm_concurrency/" target="_blank" rel="noopener">文章</a>的译文。本人水平有限，对原文理解不足，行文中难免有不通顺之处。如有高见，还请不吝赐教。</p>
+<a id="more"></a>
+
+<br>
+
+<p>内存屏障，或者说内存栅栏，是一组用于限制内存操作的执行顺序的 CPU 指令。本文将解析内存屏障对多线程程序的影响，具体到内存屏障和 JVM 并发结构（如 <code>volatile</code>、<code>synchronized</code> 和 <code>Atomic</code> 类）之间的关系。读者需要对这些概念和 Java 内存模型有扎实的理解。不过，文章并不打算阐述互斥（<code>mutual exclusion</code>），并行（<code>parallelism</code>）或者原子性（<code>atomicity</code>）。内存屏障用于实现一个很重要的并发编程基本特性，即 <code>可见性</code>。</p>
+<p>感谢 Brian Goetz 和 Eric Yew 对文章的审阅工作，同时也感谢 Christian Thalinger 提供的 <code>SPARC</code> 框架设备。</p>
+<br>
+
+
+
+<h1 id="为什么内存屏障如此重要"><a href="#为什么内存屏障如此重要" class="headerlink" title="为什么内存屏障如此重要"></a>为什么内存屏障如此重要</h1><p>访问主内存（<code>main memory</code>）一次需要数以百计个时钟周期（<code>clock cycle</code>）。CPU 使用缓存（<code>cache</code>）将内存延迟（<code>memory latency</code>）的开销降低了几个数量级。为了提高性能，缓存会对挂起（<code>pending</code>）的内存操作进行重排序（<code>re-order</code>）。也就是说，程序的读/写操作不一定按照代码顺序来执行。 </p>
+<p>当数据是不可变的（<code>immutable</code>）或被封闭在某个线程内（<code>confined to the scope of one thread</code>）时，这种优化不会改变程序结果。然而，当指令重排序遇上对称多处理（<code>symmetric multi-processing</code>）和共享可变状态（<code>shared mutable state</code>）这些情况时，可能会是一场噩梦。 对共享可变数据的内存操作进行重排序时，程序运行结果会变得不确定，比如一个线程可能以与代码顺序不一致的顺序来修改对另一个线程可见（<code>visible</code>）的值。不过，内存屏障可以通过让处理器序列化（<code>serialize</code>）挂起（<code>pending</code>）的内存操作来避免这个问题。</p>
+<br>
+
+
+
+<h1 id="内存屏障作为协议"><a href="#内存屏障作为协议" class="headerlink" title="内存屏障作为协议"></a>内存屏障作为协议</h1><p>JVM 并不直接显露内存屏障。（Memory barriers are not directly exposed by the JVM. ）反之，为了保证语言级的并发原语语义，它们被 JVM 插入到指令序列中。（Instead they are inserted into the instruction sequence by the JVM in order to uphold the semantics of language level concurrency primitives. ）我们将会看一些 Java 简单源码和其汇编指令，以了解其中原理。</p>
+<p>让我们用 <code>Dekker&#39;s algorithm</code> ，来学习内存屏障的速成课程。该算法使用三个 volatile 变量（<code>intentFirst</code>、<code>intentSecond</code>、<code>turn</code>）来协调（<code>coordinate</code>）两个线程之间对共享资源的访问。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// 线程 1                          // 线程 2</span></span><br><span class="line"> <span class="number">1</span>  intentFirst = <span class="keyword">true</span>;               intentSecond = <span class="keyword">true</span>;</span><br><span class="line"> <span class="number">2</span></span><br><span class="line"> <span class="number">3</span>  <span class="keyword">while</span> (intentSecond) &#123;            <span class="keyword">while</span> (intentFirst) &#123;     <span class="comment">// volatile 读</span></span><br><span class="line"> <span class="number">4</span>    	<span class="keyword">if</span> (turn != <span class="number">0</span>) &#123;                  <span class="keyword">if</span> (turn != <span class="number">1</span>) &#123;      <span class="comment">// volatile 读</span></span><br><span class="line"> <span class="number">5</span>    	    intentFirst = <span class="keyword">false</span>;              intentSecond = <span class="keyword">false</span>;</span><br><span class="line"> <span class="number">6</span>          <span class="keyword">while</span> (turn != <span class="number">0</span>) &#123;&#125;              <span class="keyword">while</span> (turn != <span class="number">1</span>) &#123;&#125;</span><br><span class="line"> <span class="number">7</span>         intentFirst = <span class="keyword">true</span>;               intentSecond = <span class="keyword">true</span>;</span><br><span class="line"> <span class="number">8</span>      &#125;                                 &#125;</span><br><span class="line"> <span class="number">9</span>  &#125;                                 &#125;</span><br><span class="line"><span class="number">10</span>  criticalSection();                criticalSection();</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span>  turn = <span class="number">1</span>;                         turn = <span class="number">0</span>;                 <span class="comment">// volatile 写</span></span><br><span class="line"><span class="number">13</span>  intentFirst = <span class="keyword">false</span>;              intentSecond = <span class="keyword">false</span>;     <span class="comment">// volatile 写</span></span><br></pre></td></tr></table></figure>
+
+<p>不要关注这个算法的细节。那么，该看些什么呢？</p>
+<p>仔细看，每个线程都试图在第一行通过将自己的 <code>intent</code> 置为 <code>true</code> 来进入临界区（<code>critical section</code>）。如果一个线程在第三行观察（<code>observe</code>）到冲突（即两个线程的 <code>intent</code> 都为 <code>true</code>），那么将通过轮流执行（<code>turn taking</code>）来解决冲突。在给定的时间点上，只有一个线程可以访问临界区。</p>
+<p>硬件优化（<code>hardware optimizations</code>）在没有内存屏障的情况下会使代码运行结果变得不确定，即使编译器以代码顺序来编译这些内存操作。</p>
+<ul>
+<li>看第 3 行和第 4 行上的两个连续的 <code>volatile</code> 读操作。每个线程都会检查另一个线程是否有进入临界区的 <code>intent</code>，再检查轮到谁了。</li>
+<li>看第 12 行和第 13 行上的两个连续的 <code>volatile</code> 写操作。每个线程将变量 <code>turn</code> 改为另一个线程对应的值，并且将自己进入临界区的 <code>intent</code> 置为 <code>false</code>。</li>
+</ul>
+<p>读线程不应该在另一个线程将其 <code>intent</code> 置为 <code>false</code> 后才观察到那个线程对变量 <code>turn</code> 的写操作，这将是一场灾难（A reading thread should never expect to observe the other thread’s write to the turn variable after the other thread’s withdrawal of intent. This would be a disaster. ）。但如果没有用 <code>volatile</code> 修饰这些变量，就会发生这种情况！比如，假如没有 <code>volatile</code> ，在线程 1 对变量 <code>turn</code> 写入(线程 1 倒数第二行)之前，线程 2 可能可以观察到线程 1 对 <code>intentFirst</code> 的写入(线程 1 最后一行)。</p>
+<p>关键字 <code>volatile</code> 可以避免这个问题，因为它在对 <code>turn</code> 变量的写入和对 <code>intentFirst</code> 变量的写入之间建立了一个 <em><code>happens before</code></em> 关系（The keyword volatile prevents this problem because it establishes a <em>happens before</em> relationship between the write to the turn variable and the write to the intentFirst variable. ）。编译器不能对这些写操作重排序，如果必须的话，它就会使用内存屏障来禁止处理器的重排序。</p>
+<p>HotSpot 选项 <code>PrintAssembly</code> 是 JVM 的一个诊断标志（diagnostic flag），它能够让我们获取 JIT 编译器生成的汇编指令。这需要最新的 OpenJDK 版本（update 14 或以上）或新版 HotSpot。另外还需要一个反汇编插件。Kenai 就有适合 Solaris、Linux 和 BSD 平台的插件。hsdis 插件可以作为 Windows 平台上的替代方案。</p>
+<p>源码中第 3 行连续的两个读操作中的第一个体现在下面的汇编指令中。环境是多核 CPU Itanium 2，JDK 1.6（Update 17）。</p>
+<p>下面的所有汇编指令，所有指令流都是按照左侧的行号进行排序的。相关的读操作、写操作和内存屏障指令都有前缀 <code>*</code>。建议读者不要陷入对每条指令的语义思考中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(Itanium)</span><br><span class="line">1  0x2000000001de819c:  adds r37=597, r36      ;...84112554</span><br><span class="line">2* 0x2000000001de81a0:  ld1.acq r38=[r37]      ;...0b30014a a010</span><br><span class="line">3  0x2000000001de81a6:  nop.m 0x0              ;...00000002 00c0</span><br><span class="line">4  0x2000000001de81ac:  sxt1 r38=r38           ;...00513004</span><br><span class="line">5  0x2000000001de81b0:  cmp4.eq p0, p6=0, r38  ;...1100004c 8639</span><br><span class="line">6  0x2000000001de81b6:  nop.i 0x0              ;...00000002 0003</span><br><span class="line">7  0x2000000001de81bc:  br.cond.dpnt.many 0x2000000001de8220;;</span><br></pre></td></tr></table></figure>
+
+<p>这些简短的指令说来就话长了。第一个 <code>volatile</code> 读在第 2 行。Java 内存模型保证 JVM 会在第二次 <code>volatile</code> 读之前，按<strong>程序顺序</strong>将第一个 <code>volatile</code> 读传递给 CPU 。但这还不够，因为 CPU 仍然可以乱序执行这些操作。为了维护 Java 内存模型的一致性，JVM 使用带参数的 <code>ld.acq</code> （<code>load acquire</code>）来注释（<code>annotate</code>）第一个 <code>volatile</code> 读操作。通过使用 <code>ld.acq</code> ，编译器可以确保第 2 行上的读操作在后续的读操作之前完成。这样，问题就解决了。</p>
+<p>注意，这影响的是读，而不是写。这里需要介绍一下单向内存屏障和双向内存屏障。</p>
+<ul>
+<li><strong>单向</strong>内存屏障：对读 <strong>或</strong> 写强制排序。<code>ld.acq</code> 就是一个例子。</li>
+<li><strong>双向</strong>内存屏障：对读 <strong>和</strong> 写强制排序。</li>
+</ul>
+<p>一致性是双向的。（Consistency is a two way street. ）<strong>如果另一个线程没有将写操作和写操作分开（<code>separate</code>），那么读线程在两次读操作之间插入一个内存屏障有什么用呢？</strong>为了让线程间进行通信，它们都必须遵守协议（<code>protocol</code>），就像网络中的节点，或者团队中的人。如果一个线程不遵守协议，那么其他线程的工作（<code>effort</code>）就没有意义。在 <code>Dekker&#39;s algorithm</code> 中最后两行代码（即两个 <code>volatile</code> 写操作）对应的汇编指令中，我们会看到一个内存屏障。</p>
+<blockquote>
+<p>$ java -XX:+UnlockDiagnosticVMOptions -XX:PrintAssemblyOptions=hsdis-print-bytes -XX:CompileCommand=print,WriterReader.write WriterReader</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(Itanium)</span><br><span class="line"> 1  0x2000000001de81c0: adds r37=592,r36    ;...0b284149 0421</span><br><span class="line"> 2  0x2000000001de81c6: st4.rel [r37]=r39   ;...00389560 2380</span><br><span class="line"> 3  0x2000000001de81cc: adds r36=596,r36    ;...84112544</span><br><span class="line"> 4* 0x2000000001de81d0: st1.rel [r36]=r0    ;...09000048 a011</span><br><span class="line"> 5* 0x2000000001de81d6: mf                  ;...00000044 0000</span><br><span class="line"> 6  0x2000000001de81dc: nop.i 0x0           ;...00040000</span><br><span class="line"> 7  0x2000000001de81e0: mov r12=r33         ;...00600042 0021</span><br><span class="line"> 8  0x2000000001de81e6: mov.ret b0=r35,0x2000000001de81e0</span><br><span class="line"> 9  0x2000000001de81ec: mov.i ar.pfs=r34    ;...00aa0220</span><br><span class="line">10  0x2000000001de81f0: mov r6=r32          ;...09300040 0021</span><br></pre></td></tr></table></figure>
+
+<p>在第 4 行，我们可以看到第二个写操作用<strong>显式</strong>内存屏障进行了注释（<code>annotate</code>）。通过使用带参数的 <code>st.rel</code>（或 <code>store release</code>），编译器可以确保第一个写操作在第二个写操作之前是<strong>可见的</strong>。这就达成了协议的双向性（This completes both sides of the protocol），因为第一个写操作发生在第二个写操作之前。</p>
+<p>指令 <code>st.rel</code> 是<strong>单向</strong>内存屏障，就像 <code>ld.acq</code> 一样。但是，在第 5 行，编译器还添加了一个<strong>双向</strong>内存屏障。指令 <code>mf</code>（<code>memory fence</code>），是 Itanium 2 指令集中的一个<strong>完全</strong>内存屏障（<code>fully fence</code>）。</p>
+<br>
+
+
+
+<h1 id="内存屏障是硬件特性"><a href="#内存屏障是硬件特性" class="headerlink" title="内存屏障是硬件特性"></a>内存屏障是硬件特性</h1><p>本文不打算对所有内存屏障做全面概述，这太费时费力了。重要的是要认识到，内存屏障的指令在不同的硬件架构中有相当大的差异。下面是在多核 CPU Intel Xeon 上获取的连续 <code>volatile</code> 写操作的汇编指令。本文中余下所有汇编指令都是基于 Intel Xeon 的，除非另有说明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> （Intel Xeon x86)</span><br><span class="line"> 1  0x03f8340c: push   %ebp                     ;...55</span><br><span class="line"> 2  0x03f8340d: sub    $0x8, %esp               ;...81ec0800 0000</span><br><span class="line"> 3  0x03f83413: mov    $0x14c, %edi             ;...bf4c0100 00</span><br><span class="line"> 4  0x03f83418: movb   $0x1, -0x505a72f0(%edi)  ;...c687108d a5af01</span><br><span class="line"> 5  0x03f8341f: mfence                          ;...0faef0</span><br><span class="line"> 6  0x03f83422: mov    $0x148, %ebp             ;...bd480100 00</span><br><span class="line"> 7  0x03f83427: mov    $0x14d, %edx             ;...ba4d0100 00</span><br><span class="line"> 8  0x03f8342c: movsbl -0x505a72f0(%edx), %ebx  ;...0fbe9a10 8da5af</span><br><span class="line"> 9  0x03f83433: test   %ebx, %ebx               ;...85db</span><br><span class="line">10  0x03f83435: jne    0x03f83460               ;...7529</span><br><span class="line">11  0x03f83437: movl   $0x1, -0x505a72f0(%ebp)  ;...c785108d a5af01</span><br><span class="line">12  0x03f83441: movb   $0x0, -0x505a72f0(%edi)  ;...c687108d a5af00</span><br><span class="line">13* 0x03f83448: mfence                          ;...0faef0</span><br><span class="line">14  0x03f8344b: add    $0x8,%esp                ;...83c408</span><br><span class="line">15  0x03f8344e: pop    %ebp                     ;...5d</span><br></pre></td></tr></table></figure>
+
+<p>基于 x86 Xeon 的汇编指令第 11 行和第 12 行，我们看到 <strong><code>volatile</code> 写操作</strong>。第二个写操作后有一个 <code>mfence</code> 指令（第 13 行），这是一个<strong>显式</strong>的<strong>双向</strong>内存屏障。</p>
+<p>下面是基于 <code>SPARC</code> 的连续 <code>volatile</code> 写操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(SPARC)</span><br><span class="line"> 1  0xfb8ecc84: ldub [ %l1 + 0x155 ], %l3    ;...e60c6155</span><br><span class="line"> 2  0xfb8ecc88: cmp  %l3, 0                  ;...80a4e000</span><br><span class="line"> 3  0xfb8ecc8c: bne, pn %icc, 0xfb8eccb0     ;...12400009</span><br><span class="line"> 4  0xfb8ecc90: nop                          ;...01000000</span><br><span class="line"> 5  0xfb8ecc94: st  %l0, [ %l1 + 0x150 ]     ;...e0246150</span><br><span class="line"> 6  0xfb8ecc98: clrb  [ %l1 + 0x154 ]        ;...c02c6154</span><br><span class="line"> 7* 0xfb8ecc9c: membar  #StoreLoad           ;...8143e002</span><br><span class="line"> 8  0xfb8ecca0: sethi  %hi(0xff3fc000), %l0  ;...213fcff0</span><br><span class="line"> 9  0xfb8ecca4: ld  [ %l0 ], %g0             ;...c0042000</span><br><span class="line">10  0xfb8ecca8: ret                          ;...81c7e008</span><br><span class="line">11  0xfb8eccac: restore                      ;...81e80000</span><br></pre></td></tr></table></figure>
+
+<p>在第 5 行和第 6 行可以看到 <strong><code>volatile</code> 写操作</strong>。第二个写操作后跟随有 <code>membar</code> 指令（第 7 行），这也是一个<strong>显式</strong>的<strong>双向</strong>内存屏障。</p>
+<p><code>x86</code> 和 <code>SPARC</code> 的指令流与 <code>Itanium</code> 的指令流之间有一个重要的区别。<strong>JVM 在 <code>x86</code> 和 <code>SPARC</code> 上在连续的写操作后设置了内存屏障，但是在这两个写操作之间没有设置内存屏障。然而，<code>Itanium</code> 的指令流在两个写操作之间有一个内存屏障。</strong></p>
+<p>为什么 JVM 在不同的硬件架构中表现不同？</p>
+<p>因为每种硬件架构都有一个内存模型，每个内存模型都有自己的一套一致性保证（<code>consistent guarantee</code>）体系。比如 <code>x86</code> 或 <code>SPARC</code> 的内存模型，有非常强大的一致性保证。其他内存模型，如 <code>Itanium</code>、<code>PowerPC</code> 或 <code>Alpha</code>，则较为宽松（<code>relaxed</code>）。比如，<code>x86</code> 和 <code>SPARC</code> 不会重排序连续的写操作，所以不需要内存屏障。而 <code>Itanium</code>、<code>PowerPC</code> 和 <code>Alpha</code> 会对连续的写操作进行重排序，因此 JVM 必须在写操作之间设置一个内存屏障。</p>
+<p><strong>也就是说，JVM 使用内存屏障来消除 Java 内存模型和硬件的内存模型之间的差异。</strong></p>
+<br>
+
+
+
+<h1 id="隐式内存屏障"><a href="#隐式内存屏障" class="headerlink" title="隐式内存屏障"></a>隐式内存屏障</h1><p>显式的指令 <code>fence</code> 不是序列化（<code>serialize</code>）内存操作的唯一方法。让我们来看看 <code>Counter</code> 类这个例子。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] _)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">            inc();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">inc</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        counter += <span class="number">1</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Counter</code> 类中有一个经典的“读 - 修改 - 写”操作。因为这三个操作一定是原子操作（即组合起来就不是原子操作）， 所以不能用 <code>volatile</code> 修饰静态字段 <code>counter</code> ，得用 <code>synchronized</code> 修饰方法 <code>inc()</code>。我们可以使用以下命令编译 <code>Counter</code> 类并查看方法 <code>inc()</code> 生成的汇编指令。Java 内存模型为 <code>synchronized</code> 区域的退出操作（<code>exiting of synchronized regions</code>） 提供了与 <code>volatile</code> 内存操作（<code>volatile memory operations</code>）相同的可见性语义（<code>visibility semantics</code>），因此我们会看到另一种内存屏障。</p>
+<blockquote>
+<p>$ java -XX:+UnlockDiagnosticVMOptions -XX:PrintAssemblyOptions=hsdis-print-bytes -XX:-UseBiasedLocking -XX:CompileCommand=print,Counter.inc Counter</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">(Intel Xeon)</span><br><span class="line"> 1  0x04d5eda7: push   %ebp               ;...55</span><br><span class="line"> 2  0x04d5eda8: mov    %esp,%ebp          ;...8bec</span><br><span class="line"> 3  0x04d5edaa: sub    $0x28,%esp         ;...83ec28</span><br><span class="line"> 4  0x04d5edad: mov    $0x95ba5408,%esi   ;...be0854ba 95</span><br><span class="line"> 5  0x04d5edb2: lea    0x10(%esp),%edi    ;...8d7c2410</span><br><span class="line"> 6  0x04d5edb6: mov    %esi,0x4(%edi)     ;...897704</span><br><span class="line"> 7  0x04d5edb9: mov    (%esi),%eax        ;...8b06</span><br><span class="line"> 8  0x04d5edbb: or     $0x1,%eax          ;...83c801</span><br><span class="line"> 9  0x04d5edbe: mov    %eax,(%edi)        ;...8907</span><br><span class="line">10* 0x04d5edc0: lock cmpxchg %edi,(%esi)  ;...f00fb13e</span><br><span class="line">11  0x04d5edc4: je     0x04d5edda         ;...0f841000 0000</span><br><span class="line">12  0x04d5edca: sub    %esp,%eax          ;...2bc4</span><br><span class="line">13  0x04d5edcc: and    $0xfffff003,%eax   ;...81e003f0 ffff</span><br><span class="line">14  0x04d5edd2: mov    %eax,(%edi)        ;...8907</span><br><span class="line">15  0x04d5edd4: jne    0x04d5ee11         ;...0f853700 0000</span><br><span class="line">16  0x04d5edda: mov    $0x95ba52b8,%eax   ;...b8b852ba 95</span><br><span class="line">17  0x04d5eddf: mov    0x148(%eax),%esi   ;...8bb04801 0000</span><br><span class="line">18* 0x04d5ede5: inc    %esi               ;...46</span><br><span class="line">19  0x04d5ede6: mov    %esi,0x148(%eax)   ;...89b04801 0000</span><br><span class="line">20  0x04d5edec: lea    0x10(%esp),%eax    ;...8d442410</span><br><span class="line">21  0x04d5edf0: mov    (%eax),%esi        ;...8b30</span><br><span class="line">22  0x04d5edf2: test   %esi,%esi          ;...85f6</span><br><span class="line">23  0x04d5edf4: je     0x04d5ee07         ;...0f840d00 0000</span><br><span class="line">24  0x04d5edfa: mov    0x4(%eax),%edi     ;...8b7804</span><br><span class="line">25* 0x04d5edfd: lock cmpxchg %esi,(%edi)  ;...f00fb137</span><br><span class="line">26  0x04d5ee01: jne    0x04d5ee1f         ;...0f851800 0000</span><br><span class="line">27  0x04d5ee07: mov    %ebp,%esp          ;...8be5</span><br><span class="line">28  0x04d5ee09: pop    %ebp               ;...5d</span><br></pre></td></tr></table></figure>
+
+<p>不出意外，<code>synchronized</code> 生成的指令数量比 <code>volatile</code> 的多。多出部分可以在第 18 行找到，但 JVM 并没有插入<strong>显式</strong>内存屏障。相反，JVM 在第 10 行和第 25 行使用了两次带 <code>lock</code> 前缀的 <code>cmpxchg</code> 指令。（解释 <code>cmpxchg</code> 指令的语义超出了本文的范围。）值得注意的是，<code>lock cmpxchg</code> 不仅自动执行写操作，它还会刷新挂起（<code>flush pending</code>）的读和写操作。写操作将在所有后续内存操作之前都可见。如果我们使用 <code>java.util.concurrent.atomic</code> 来重构并运行 <code>Counter</code> 类，我们可以看到同样的技巧（<code>trick</code>）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> AtomicInteger counter = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++)</span><br><span class="line">        	counter.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>$ java -XX:+UnlockDiagnosticVMOptions -XX:PrintAssemblyOptions=hsdis-print-bytes -XX:CompileCommand=print,*AtomicInteger.incrementAndGet Counter</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(Intel Xeon)</span><br><span class="line"> 1  0x024451f7: push   %ebp               ;...55</span><br><span class="line"> 2  0x024451f8: mov    %esp,%ebp          ;...8bec</span><br><span class="line"> 3  0x024451fa: sub    $0x38,%esp         ;...83ec38</span><br><span class="line"> 4  0x024451fd: jmp    0x0244520a         ;...e9080000 00</span><br><span class="line"> 5  0x02445202: xchg   %ax,%ax            ;...6690</span><br><span class="line"> 6  0x02445204: test   %eax,0xb771e100    ;...850500e1 71b7</span><br><span class="line"> 7  0x0244520a: mov    0x8(%ecx),%eax     ;...8b4108</span><br><span class="line"> 8  0x0244520d: mov    %eax,%esi          ;...8bf0</span><br><span class="line"> 9  0x0244520f: inc    %esi               ;...46</span><br><span class="line">10  0x02445210: mov    $0x9a3f03d0,%edi   ;...bfd0033f 9a</span><br><span class="line">11  0x02445215: mov    0x160(%edi),%edi   ;...8bbf6001 0000</span><br><span class="line">12  0x0244521b: mov    %ecx,%edi          ;...8bf9</span><br><span class="line">13  0x0244521d: add    $0x8,%edi          ;...83c708</span><br><span class="line">14* 0x02445220: lock cmpxchg %esi,(%edi)  ;...f00fb137</span><br><span class="line">15  0x02445224: mov    $0x1,%eax          ;...b8010000 00</span><br><span class="line">16  0x02445229: je     0x02445234         ;...0f840500 0000</span><br><span class="line">17  0x0244522f: mov    $0x0,%eax          ;...b8000000 00</span><br><span class="line">18  0x02445234: cmp    $0x0,%eax          ;...83f800</span><br><span class="line">19  0x02445237: je     0x02445204         ;...74cb</span><br><span class="line">20  0x02445239: mov    %esi,%eax          ;...8bc6</span><br><span class="line">21  0x0244523b: mov    %ebp,%esp          ;...8be5</span><br><span class="line">22  0x0244523d: pop    %ebp               ;...5d</span><br></pre></td></tr></table></figure>
+
+<p>在第 14 行，我们再次看到写操作有 <code>lock</code> 前缀。这将确保在所有后续内存操作之前，变量的新值对其他线程都可见。</p>
+<br>
+
+
+
+<h1 id="内存屏障可被消除"><a href="#内存屏障可被消除" class="headerlink" title="内存屏障可被消除"></a>内存屏障可被消除</h1><p>JVM 知道如何消除不必要的内存屏障。</p>
+<p>如果硬件内存模型的一致性保证（<code>consistency guarantee</code>）强于等于 Java 内存模型的一致性保证，这种情况下就比较简单，JVM 只会插入 <code>no op</code>，而不是实际的内存屏障。例如，<code>x86</code> 和 <code>SPARC</code> 硬件的内存模型的一致性保证足够强大，在读取 <code>volatile</code> 变量时就无需设置内存屏障。</p>
+<p>还记得在 <code>Itanium</code> 上用来分隔两个读操作的显式单向内存屏障（<code>ld.acq</code>）吗？没错，在 <code>x86</code> 上 <code>Dekker&#39;s algorithm</code> 中连续的 <code>volatile</code> 读操作的汇编指令没有内存屏障。</p>
+<p>在 <code>x86</code> 上，对共享内存的连续读操作。（A read followed by a read of shared memory on x86.）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(x86 Dekker)</span><br><span class="line"> 1  0x03f83422: mov    $0x148,%ebp             ;...bd480100 00</span><br><span class="line"> 2  0x03f83427: mov    $0x14d,%edx             ;...ba4d0100 00</span><br><span class="line"> 3* 0x03f8342c: movsbl -0x505a72f0(%edx),%ebx  ;...0fbe9a10 8da5af</span><br><span class="line"> 4  0x03f83433: test   %ebx,%ebx               ;...85db</span><br><span class="line"> 5  0x03f83435: jne    0x03f83460              ;...7529</span><br><span class="line"> 6  0x03f83437: movl   $0x1,-0x505a72f0(%ebp)  ;...c785108d a5af01</span><br><span class="line"> 7  0x03f83441: movb   $0x0,-0x505a72f0(%edi)  ;...c687108d a5af00</span><br><span class="line"> 8  0x03f83448: mfence                         ;...0faef0</span><br><span class="line"> 9  0x03f8344b: add    $0x8,%esp               ;...83c408</span><br><span class="line">10  0x03f8344e: pop    %ebp                    ;...5d</span><br><span class="line">11  0x03f8344f: test   %eax,0xb78ec000         ;...850500c0 8eb7</span><br><span class="line">12  0x03f83455: ret                            ;...c3</span><br><span class="line">13  0x03f83456: nopw   0x0(%eax,%eax,1)        ;...66660f1f 840000</span><br><span class="line">14* 0x03f83460: mov    -0x505a72f0(%ebp),%ebx  ;...8b9d108d a5af</span><br><span class="line">15  0x03f83466: test   %edi,0xb78ec000         ;...853d00c0 8eb7</span><br></pre></td></tr></table></figure>
+
+<p><code>volatile</code> 读操作位于第 3 行和第 14 行。它们都没有配以内存屏障。换句话说，在 <code>x86</code> 上（或者在 <code>SPARC</code> 上）执行 <code>volatile</code> 读操作时，唯一的性能损失就是不能对指令重排优化，指令本身与普通读操作没有什么不同。</p>
+<p>另外，单向内存屏障的开销自然要比双向的低。当 JVM 知道单向内存屏障已经足够时，它就不会使用双向内存屏障，本文中的第一个示例证明了这一点。我们看到 <code>Itanium</code> 上两个连续的 <code>volatile</code> 读操作中的第一个使用一个单向内存屏障（<code>ld.acq</code>）进行注释（<code>annotate</code>）。如果使用显式的双向内存屏障对读操作进行注释）进行注释（<code>annotate</code>），程序仍然是正确的，但延迟开销（<code>latency cost</code>）会增大。</p>
+<br>
+
+
+
+<h1 id="动态编译"><a href="#动态编译" class="headerlink" title="动态编译"></a>动态编译</h1><p>静态编译器在构建时所知道的事情，动态编译器在运行时都会知道，甚至更多。更多的信息意味着更多的优化可能。例如，让我们看看 JVM 在单处理器上运行时如何使用内存屏障。下面的指令流是 <code>Dekker</code> 算法中两个连续的 <code>volatile</code> 写操作的运行时编译结果。环境是 VMWare WorkStation 里的单处理器模式 <code>x86</code> 镜像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(x86) </span><br><span class="line"> 1  0x017b474c: push   %ebp                    ;...55</span><br><span class="line"> 2  0x017b474d: sub    $0x8,%esp               ;...81ec0800 0000</span><br><span class="line"> 3  0x017b4753: mov    $0x14c,%edi             ;...bf4c0100 00</span><br><span class="line"> 4  0x017b4758: movb   $0x1,-0x507572f0(%edi)  ;...c687108d 8aaf01</span><br><span class="line"> 5  0x017b475f: mov    $0x148,%ebp             ;...bd480100 00</span><br><span class="line"> 6  0x017b4764: mov    $0x14d,%edx             ;...ba4d0100 00</span><br><span class="line"> 7  0x017b4769: movsbl -0x507572f0(%edx),%ebx  ;...0fbe9a10 8d8aaf</span><br><span class="line"> 8  0x017b4770: test   %ebx,%ebx               ;...85db</span><br><span class="line"> 9  0x017b4772: jne    0x017b4790              ;...751c</span><br><span class="line">10* 0x017b4774: movl   $0x1,-0x507572f0(%ebp)  ;...c785108d 8aaf01</span><br><span class="line">11* 0x017b477e: movb   $0x0,-0x507572f0(%edi)  ;...c687108d 8aaf00</span><br><span class="line">12  0x017b4785: add    $0x8,%esp               ;...83c408</span><br><span class="line">13  0x017b4788: pop    %ebp                    ;...5d</span><br></pre></td></tr></table></figure>
+
+<p>在单处理器系统中，JVM 为<strong>所有</strong>内存屏障插入 <code>no op</code>，因为内存操作已经序列化（<code>serialize</code>）了。写操作（第 10 行和第 11 行）后不会有内存屏障。JVM 对 <code>atomic</code> 类进行了类似的优化（第 14 行）。下面是在相同的 <code>VMWare</code> 镜像中， <code>AtomicInteger.incrementAndGet()</code> 的运行时编译结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(x86)</span><br><span class="line"> 1  0x036880f7: push   %ebp               ;...55</span><br><span class="line"> 2  0x036880f8: mov    %esp,%ebp          ;...8bec</span><br><span class="line"> 3  0x036880fa: sub    $0x38,%esp         ;...83ec38</span><br><span class="line"> 4  0x036880fd: jmp    0x0368810a         ;...e9080000 00</span><br><span class="line"> 5  0x03688102: xchg   %ax,%ax            ;...6690</span><br><span class="line"> 6  0x03688104: test   %eax,0xb78b8100    ;...85050081 8bb7</span><br><span class="line"> 7  0x0368810a: mov    0x8(%ecx),%eax     ;...8b4108</span><br><span class="line"> 8  0x0368810d: mov    %eax,%esi          ;...8bf0</span><br><span class="line"> 9  0x0368810f: inc    %esi               ;...46</span><br><span class="line">10  0x03688110: mov    $0x9a3f03d0,%edi   ;...bfd0033f 9a</span><br><span class="line">11  0x03688115: mov    0x160(%edi),%edi   ;...8bbf6001 0000</span><br><span class="line">12  0x0368811b: mov    %ecx,%edi          ;...8bf9</span><br><span class="line">13  0x0368811d: add    $0x8,%edi          ;...83c708</span><br><span class="line">14* 0x03688120: cmpxchg %esi,(%edi)       ;...0fb137</span><br><span class="line">15  0x03688123: mov    $0x1,%eax          ;...b8010000 00</span><br><span class="line">16  0x03688128: je     0x03688133         ;...0f840500 0000</span><br><span class="line">17  0x0368812e: mov    $0x0,%eax          ;...b8000000 00</span><br><span class="line">18  0x03688133: cmp    $0x0,%eax          ;...83f800</span><br><span class="line">19  0x03688136: je     0x03688104         ;...74cc</span><br><span class="line">20  0x03688138: mov    %esi,%eax          ;...8bc6</span><br><span class="line">21  0x0368813a: mov    %ebp,%esp          ;...8be5</span><br><span class="line">22  0x0368813c: pop    %ebp               ;...5d</span><br></pre></td></tr></table></figure>
+
+<p>注意第 14 行中的 <code>cmpxchg</code> 指令。前面我们看到编译器给这个指令添加了一个 <code>lock</code> 前缀。在没有 SMP（<code>symmetric multiprocessing</code>）的情况下，JVM 避免了这种开销，这是静态编译无法做到的。</p>
+<br>
+
+
+
+<h1 id="收尾"><a href="#收尾" class="headerlink" title="收尾"></a>收尾</h1><p>内存屏障是多线程编程的必要条件。它可以分为不同类型，有显式、隐式之分，也有单向、双向之分。JVM 利用内存屏障实现跨平台的 Java 内存模型。我希望本文能够帮助有经验的 JVM 开发人员更深入地了解他们的代码的工作原理。</p>
+<br>
+
+
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://www.intel.com/products/processor/manuals/" target="_blank" rel="noopener">Intel 64 and IA-32 Architectures Software Developer’s Manuals</a></li>
+<li><a href="http://www.csee.umbc.edu/help/architecture/aig.pdf" target="_blank" rel="noopener">IA-64 Application Instruction Set Architecture Guide</a></li>
+<li><a href="http://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601" target="_blank" rel="noopener">Java Concurrency in Practice</a> by <a href="http://www.briangoetz.com/" target="_blank" rel="noopener">Brian Goetz</a></li>
+<li><a href="http://g.oswego.edu/dl/jmm/cookbook.html" target="_blank" rel="noopener">JSR-133 Cookbook</a> by Doug Lea</li>
+<li>Mutual exclusion with <a href="http://en.wikipedia.org/wiki/Dekker's_algorithm" target="_blank" rel="noopener">Dekker’s Algorithm</a></li>
+<li>Examining generated code with <a href="http://wikis.sun.com/display/HotSpotInternals/PrintAssembly" target="_blank" rel="noopener">PrintAssembly</a></li>
+<li><a href="http://kenai.com/projects/base-hsdis/downloads" target="_blank" rel="noopener">The Kenai Project</a> - a disassembler plugin</li>
+<li><a href="http://hg.openjdk.java.net/jdk7/hotspot/hotspot/file/tip/src/share/tools/hsdis/" target="_blank" rel="noopener">hsdis</a> - a disassembler plugin</li>
+</ul>
+<br>
+
+<p><strong>以上！</strong></p>
+<br>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Alex</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://alexinst.github.io/Java/memory-barriers-and-java-concurrency/" title="「Java」内存屏障和 Java 并发">https://alexinst.github.io/Java/memory-barriers-and-java-concurrency/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      <div>    
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/concurrency/" rel="tag"># concurrency</a>
+          
+            <a href="/tags/memory-barrier/" rel="tag"># memory barrier</a>
+          
+            <a href="/tags/visibility/" rel="tag"># visibility</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/OS/differences-of-process-and-thread/" rel="next" title="「OS」进程和线程的区别">
+                <i class="fa fa-chevron-left"></i> 「OS」进程和线程的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Testing/powermock-api/" rel="prev" title="「Testing」测试框架 PowerMock 使用手册">
+                「Testing」测试框架 PowerMock 使用手册 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div></footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/amura.jpeg" alt="Alex">
+            
+              <p class="site-author-name" itemprop="name">Alex</p>
+              <p class="site-description motion-element" itemprop="description">There is Alex's learning log!</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/alexinst" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:alexinst00@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://plus.google.com/106421471076489035186" target="_blank" title="Google"><i class="fa fa-fw fa-google"></i>Google</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/Alex_Axis_" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么内存屏障如此重要"><span class="nav-number">1.</span> <span class="nav-text">为什么内存屏障如此重要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存屏障作为协议"><span class="nav-number">2.</span> <span class="nav-text">内存屏障作为协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存屏障是硬件特性"><span class="nav-number">3.</span> <span class="nav-text">内存屏障是硬件特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#隐式内存屏障"><span class="nav-number">4.</span> <span class="nav-text">隐式内存屏障</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内存屏障可被消除"><span class="nav-number">5.</span> <span class="nav-text">内存屏障可被消除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态编译"><span class="nav-number">6.</span> <span class="nav-text">动态编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#收尾"><span class="nav-number">7.</span> <span class="nav-text">收尾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'FOk46CCV2J7vbtpltEFoVoX6-9Nh9j0Va',
+        appKey: 'lqFp21BRczSXrTXsrp082wmn',
+        placeholder: 'Waiting for your insight!',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("FOk46CCV2J7vbtpltEFoVoX6-9Nh9j0Va", "lqFp21BRczSXrTXsrp082wmn");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.get('time'));
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
