@@ -1,0 +1,47 @@
+# icarus 主题 文章页侧边栏设置
+widgets:
+    # # 作者个人信息
+    # -
+    #     type: profile
+    #     position: left
+    #     author: Alex
+    #     author_title: 吾心安处，即是吾乡！
+    #     # location: Your location
+    #     avatar: /img/amura.jpeg  # URL or path to the avatar image
+    #     avatar_rounded: false  # Whether show the rounded avatar image
+    #     gravatar:   # Email address for the Gravatar
+    #     follow_link: 'https://github.com/alexinst'  # URL or path for the follow button
+    
+    # 文章目录
+    # Table of contents widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: toc
+        index: false
+        # Whether to collapse sub-headings when they are out-of-view
+        collapsed: false
+        # Maximum level of headings to show (1-6)
+        depth: 3
+    
+    # 分类栏目块
+    # Categories widget configurations
+    # -
+    #     # Where should the widget be placed, left sidebar or right sidebar
+    #     position: left
+    #     type: categories
+
+    # 最新文章
+    -
+        type: recent_posts
+        position: left
+
+    # 侧边归档栏目   
+    # -
+    #     type: archives
+    #     position: left
+
+    # 标签栏目块
+    # -
+    #     type: tags
+    #     position: left

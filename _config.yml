@@ -3,15 +3,15 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Try For Fun
-subtitle: 心安之处，便是吾乡！
-description: There is Alex's learning log!
-keywords: Learning Log
-author: Alex
+title: "Try For Fun"
+subtitle: "吾心安处，即是吾乡！"
+description: "Alex's learning logs"
+keywords: "Learning Logs"
+author: "Alex"
 language: 
   - zh-CN
   - en
-timezone:
+timezone: "Asia/Shanghai"
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -36,10 +36,11 @@ skip_render:
 new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
-external_link: true # Open external links in new tab
+external_link: 
+  enable: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true # false: 让hexo生成的静态文件html中对css和js等的引用为相对路径而不是绝对路径.
+post_asset_folder: true # false: 让 Hexo 生成的静态文件 html 中对 css 和 js 等的引用为相对路径而不是绝对路径.
 relative_link: false
 future: true
 highlight:
@@ -68,7 +69,7 @@ search:
   path: search.xml
   field: post
   format: html
-  limit: 10000
+  limit: 100
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -85,14 +86,15 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: next
+# 主题
+theme: icarus # next
 
 # leancloud_counter_security:
 #   enable_sync: false
 #   app_id: djrw6tzY0kSDWEpHDQUW7jBp-gzGzoHsz
-#   app_key:  jxBXGPtxSh2KqIsYRE5KBSJs
+#   app_key:  
 #   username: alexinst@qq.com # Will be asked while deploying if is left blank
-#   password: mXAYK84Pr1xZ # Recommmended to be left blank. Will be asked while deploying if is left blank
+#   password: # Recommmended to be left blank. Will be asked while deploying if is left blank
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -104,3 +106,12 @@ deploy:
   # deploy:
   #   # other deployer
   #   - type: leancloud_counter_security_sync
+
+# 自动生成 sitemap
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
+
+# icarus_toc:
+toc: true

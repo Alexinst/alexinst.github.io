@@ -18,9 +18,9 @@ categories:
 
 <br />
 
-# 问题与解决
+# 1 问题与解决
 
-## 问题描述
+## 1.1 问题描述
 
 VPS（Ubuntu OS）重启后出现未分配 IP 地址而无法连接的问题。具体现象为
 
@@ -58,7 +58,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 
 
 
-## 解决方案
+## 1.2 解决方案
 
 1. 激活网络接口 eth0。shell 命令：
 
@@ -84,13 +84,13 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 
 <br />
 
-# ifconfig
+# 2 ifconfig
 
 `ifconfig` 是 interface configuration 的缩写，能够显示网络接口信息，配置网络接口。不给定参数的情况下，`ifconfig` 会显示当前启用的网络接口信息。
 
 
 
-## 语法
+## 2.1 语法
 
 ```shell
 ifconfig [-v] [-a] [-s] [interface]
@@ -99,7 +99,7 @@ ifconfig [-v] interface [aftype] options | address ...
 
 
 
-## 用法
+## 2.2 用法
 
 | 写法                                    | 含义                                       |
 | --------------------------------------- | ------------------------------------------ |
@@ -117,7 +117,7 @@ ifconfig [-v] interface [aftype] options | address ...
 
 <br />
 
-# dhclient
+# 3 dhclient
 
 dhclient 的全写是 Dynamic Host Configuration Protocol（DHCP） Client。
 
@@ -131,7 +131,7 @@ DHCP 协议用于让中央服务器给主机分配一个网络 IP 地址。
 
 
 
-## 语法
+## 3.1 语法
 
 ```
 dhclient 
@@ -149,7 +149,7 @@ dhclient
 
 
 
-## 选项
+## 3.2 选项
 
 | 选项 | 含义                                                         |
 | ---- | ------------------------------------------------------------ |
@@ -166,7 +166,7 @@ dhclient
 
 <br />
 
-# 参考
+# 4 参考
 
 - [ubuntu 下 eth0 网卡信息不见了 - CSDN](https://blog.csdn.net/cmh477660693/article/details/52760236)
 - [如何在 Linux 命令行上查看 IP 地址 - Howtoing](https://www.howtoing.com/check-ip-address-on-linux)
