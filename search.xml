@@ -1,218 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>BaiduPCS-Go：仿Linux命令行的百度网盘客户端</title>
-    <url>/Manual/BaiduPCS-Go/</url>
-    <content><![CDATA[<p><strong>简述</strong>： BaiduPCS-Go是一个模仿Linux命令的百度网盘的第三方不限速客户端。使用这个客户端，很酷炫，但也不一定很方便。</p>
-<span id="more"></span>
-<br />
-
-<h1 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h1><p>　　这是一个仿Linux命令行的百度网盘客户端。（是的，不限速）</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>文件名和目录名可用通配符*补全(使用*代替n个字符，n&gt;=0)。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例：</span></span><br><span class="line">d /a_directory/b_directory/c_file.txt =</span><br><span class="line">d /a*/b*/c*</span><br></pre></td></tr></table></figure>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
-<li>跨平台（Windows，macOS，Android等）</li>
-<li>支持多账户。</li>
-<li>网盘内列出文件和目录, 支持通配符匹配路径;</li>
-<li>下载网盘内文件, 支持网盘内目录 (文件夹) 下载, 支持多个文件或目录下载, 支持断点续传和高并发高速下载。</li>
-<li>离线下载，支持http/https/ftp/电驴/磁力链协议。</li>
-<li>好玩，不过没有一点Linux基础，就不怎么好玩了。</li>
-</ul>
-<br />
-# 程序下载
-　　项目地址: [iikira/BaiduPCS-Go][1]
-　　下载地址: [iikira/BaiduPCS-Go releases][2]
-## Windows
-　　下载地址:
-- 64位系统：[BaiduPCS-Go-v3.3.3-windows-x64.zip][3]
-- 32位系统：[BaiduPCS-Go-v3.3.3-windows-x86.zip][4]
-
-<h2 id="Android-macOS"><a href="#Android-macOS" class="headerlink" title="Android/macOS"></a>Android/macOS</h2><ul>
-<li>Android：需要用到 Termux 或 NeoTerm 类软件。这里只提一下。</li>
-<li>macOS：没有macOS的设备，这里属于凑字数。。</li>
-</ul>
-<br />
-# 程序运行
-　　下载后解压缩，双击 BaiduPCS-Go.exe。界面如下：
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">----</span><br><span class="line">BaiduPCS-Go - 百度网盘客户端 for windows/amd64</span><br><span class="line">  .......</span><br><span class="line">  .......</span><br><span class="line">  .......</span><br><span class="line">BaiduPCS-Go &gt;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="登录-退出-切换"><a href="#登录-退出-切换" class="headerlink" title="登录/退出/切换"></a>登录/退出/切换</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">login     <span class="comment"># 登录</span></span><br><span class="line"><span class="built_in">logout</span>    <span class="comment"># 退出当前账户</span></span><br><span class="line">su/chuser <span class="comment"># 切换账户</span></span><br></pre></td></tr></table></figure>
-
-<p>　　在命令行窗口中输入 <code>login</code> ，再根据提示输入账号和密码，即可登录百度账号。</p>
-<p>　　还有其他登录方式，如 <code>login -bduss=&lt;BDUSS&gt;</code>。(<a href="https://github.com/iikira/BaiduPCS-Go/wiki/%E5%85%B3%E4%BA%8E-%E8%8E%B7%E5%8F%96%E7%99%BE%E5%BA%A6-BDUSS">获取bduss</a>)</p>
-<p>　　<code>logout</code> 和 <code>su</code> / <code>chuser</code> 的用法也比较简单。</p>
-<h2 id="查看当前账户及已登录账户"><a href="#查看当前账户及已登录账户" class="headerlink" title="查看当前账户及已登录账户"></a>查看当前账户及已登录账户</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">loglist</span><br></pre></td></tr></table></figure>
-<h2 id="切换目录"><a href="#切换目录" class="headerlink" title="切换目录"></a>切换目录</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> -l /Path/To/File</span><br><span class="line"><span class="comment"># cd = change directory = 切换目录。</span></span><br><span class="line"><span class="comment"># /Path/To/File = 文件路径，绝对路径或相对路径。</span></span><br><span class="line"><span class="comment"># -l: 显示目标目录下的子文件及子目录。</span></span><br></pre></td></tr></table></figure>
-
-<p>　　例：<code>cd /a/b/c/d</code></p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d /Path/To/File</span><br><span class="line"><span class="comment"># d = download = 下载</span></span><br></pre></td></tr></table></figure>
-<p>　　例：<code>d /a/b/c/d/e.txt</code>。文件路径也可以是相对路径的。</p>
-<h2 id="web功能"><a href="#web功能" class="headerlink" title="web功能"></a>web功能</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">web <span class="comment">#启用web功能</span></span><br></pre></td></tr></table></figure>
-
-<p>　　输入上述命令后，在浏览器栏输入<a href="http://localhost:8080/">localhost:8080</a>，就可以在本地查看你的网盘目录。</p>
-<p>　　很不错的功能。</p>
-<br />
-# 帮助菜单
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">h</span><br></pre></td></tr></table></figure>
-
-<p>　　输入 <code>h</code> ，可以看到帮助菜单。这里做成表格，以便观看</p>
-<table>
-<thead>
-<tr>
-<th align="center">用法</th>
-<th align="left">[global options] command [command options] [arguments…]</th>
-</tr>
-</thead>
-</table>
-<table>
-<thead>
-<tr>
-<th align="left">COMMANDS</th>
-<th align="left">含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">tool</td>
-<td align="left">工具箱</td>
-</tr>
-<tr>
-<td align="left">help / h</td>
-<td align="left">Shows a list of commands or help for one command</td>
-</tr>
-<tr>
-<td align="left"><strong>其他：</strong></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">run</td>
-<td align="left">执行系统命令</td>
-</tr>
-<tr>
-<td align="left">sumfile / sf</td>
-<td align="left">获取文件的秒传信息</td>
-</tr>
-<tr>
-<td align="left">web</td>
-<td align="left">启用 web 客户端 (测试中)</td>
-</tr>
-<tr>
-<td align="left"><strong>百度账号：</strong></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">login</td>
-<td align="left">登录百度账号</td>
-</tr>
-<tr>
-<td align="left">loglist</td>
-<td align="left">获取当前帐号, 和所有已登录的百度帐号</td>
-</tr>
-<tr>
-<td align="left">logout</td>
-<td align="left">退出当前登录的百度帐号</td>
-</tr>
-<tr>
-<td align="left">su / chuser</td>
-<td align="left">切换已登录的百度帐号</td>
-</tr>
-<tr>
-<td align="left"><strong>百度网盘：</strong></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">cd</td>
-<td align="left">切换工作目录</td>
-</tr>
-<tr>
-<td align="left">cp</td>
-<td align="left">拷贝(复制) 文件/目录</td>
-</tr>
-<tr>
-<td align="left">download / d</td>
-<td align="left">下载文件或目录</td>
-</tr>
-<tr>
-<td align="left">ls / l / ll</td>
-<td align="left">列出当前工作目录内的文件和目录 或 指定目录内的文件和目录</td>
-</tr>
-<tr>
-<td align="left">meta</td>
-<td align="left">获取单个文件/目录的元信息 (详细信息)</td>
-</tr>
-<tr>
-<td align="left">mkdir</td>
-<td align="left">创建目录</td>
-</tr>
-<tr>
-<td align="left">mv</td>
-<td align="left">移动/重命名 文件/目录</td>
-</tr>
-<tr>
-<td align="left">offlinedl/clouddl / od</td>
-<td align="left">离线下载</td>
-</tr>
-<tr>
-<td align="left">pwd</td>
-<td align="left">输出当前所在目录 (工作目录)</td>
-</tr>
-<tr>
-<td align="left">quota</td>
-<td align="left">获取配额, 即获取网盘的总储存空间, 和已使用的储存空间</td>
-</tr>
-<tr>
-<td align="left">rapidupload / ru</td>
-<td align="left">手动秒传文件</td>
-</tr>
-<tr>
-<td align="left">rm</td>
-<td align="left">删除 单个/多个 文件/目录</td>
-</tr>
-<tr>
-<td align="left">upload / u</td>
-<td align="left">上传文件或目录</td>
-</tr>
-<tr>
-<td align="left"><strong>配置:</strong></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left">config</td>
-<td align="left">显示和修改程序配置项</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="left">GLOBAL OPTIONS:</th>
-<th align="left">全局选项</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">–verbose</td>
-<td align="left">启用调试</td>
-</tr>
-<tr>
-<td align="left">–help / -h</td>
-<td align="left">查看帮助</td>
-</tr>
-<tr>
-<td align="left">–version / -v</td>
-<td align="left">查看版本号</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>Manual</category>
-      </categories>
-      <tags>
-        <tag>BaiduPCS-GO</tag>
-        <tag>manual</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>「Network」127.0.0.1 与 0.0.0.0</title>
     <url>/Network/127-0-0-1-and-0-0-0-0/</url>
     <content><![CDATA[<p><strong>简述：</strong>我对 <code>127.0.0.1</code> 和 <code>0.0.0.0</code> 这两个地址的概念一直都，好像了解，但却说不清楚。最近写博客的冲动比较强烈，遂查阅诸多资料，作解惑与收录。</p>
@@ -476,50 +264,215 @@
       </tags>
   </entry>
   <entry>
-    <title>「Debian」Debian 使用 apt 安装软件时提示插入光盘</title>
-    <url>/Linux/apt-get-install-error-media-change/</url>
-    <content><![CDATA[<p><strong>简述</strong>：<code>apt</code> 是 <code>Debian</code> 的安装包管理工具。</p>
+    <title>BaiduPCS-Go：仿Linux命令行的百度网盘客户端</title>
+    <url>/Manual/BaiduPCS-Go/</url>
+    <content><![CDATA[<p><strong>简述</strong>： BaiduPCS-Go是一个模仿Linux命令的百度网盘的第三方不限速客户端。使用这个客户端，很酷炫，但也不一定很方便。</p>
 <span id="more"></span>
 <br />
 
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>在VMware中成功安装Debian 9.2，进入终端运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
-
-<p>结果出现如下错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Media change: please insert the disc labeled</span><br><span class="line"> &#x27;Debian GNU/Linux......&#x27;</span><br><span class="line">in the drive &#x27;/media/cdrom/&#x27; and press enter</span><br></pre></td></tr></table></figure>
-
+<h1 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h1><p>　　这是一个仿Linux命令行的百度网盘客户端。（是的，不限速）</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>文件名和目录名可用通配符*补全(使用*代替n个字符，n&gt;=0)。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 示例：</span></span><br><span class="line">d /a_directory/b_directory/c_file.txt =</span><br><span class="line">d /a*/b*/c*</span><br></pre></td></tr></table></figure>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>跨平台（Windows，macOS，Android等）</li>
+<li>支持多账户。</li>
+<li>网盘内列出文件和目录, 支持通配符匹配路径;</li>
+<li>下载网盘内文件, 支持网盘内目录 (文件夹) 下载, 支持多个文件或目录下载, 支持断点续传和高并发高速下载。</li>
+<li>离线下载，支持http/https/ftp/电驴/磁力链协议。</li>
+<li>好玩，不过没有一点Linux基础，就不怎么好玩了。</li>
+</ul>
 <br />
+# 程序下载
+　　项目地址: [iikira/BaiduPCS-Go][1]
+　　下载地址: [iikira/BaiduPCS-Go releases][2]
+## Windows
+　　下载地址:
+- 64位系统：[BaiduPCS-Go-v3.3.3-windows-x64.zip][3]
+- 32位系统：[BaiduPCS-Go-v3.3.3-windows-x86.zip][4]
 
-
-
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>打开并修改文件 <code>sources.list</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
-
-<p>找到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb cdrom:[Debian GNU/Linux ......] .......</span><br></pre></td></tr></table></figure>
-
-<p>将其注释：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># deb cdrom:[Debian GNU/Linux ......] .......            </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>最后：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<h2 id="Android-macOS"><a href="#Android-macOS" class="headerlink" title="Android/macOS"></a>Android/macOS</h2><ul>
+<li>Android：需要用到 Termux 或 NeoTerm 类软件。这里只提一下。</li>
+<li>macOS：没有macOS的设备，这里属于凑字数。。</li>
+</ul>
 <br />
+# 程序运行
+　　下载后解压缩，双击 BaiduPCS-Go.exe。界面如下：
 
-<p><strong>以上</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">----</span><br><span class="line">BaiduPCS-Go - 百度网盘客户端 for windows/amd64</span><br><span class="line">  .......</span><br><span class="line">  .......</span><br><span class="line">  .......</span><br><span class="line">BaiduPCS-Go &gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="登录-退出-切换"><a href="#登录-退出-切换" class="headerlink" title="登录/退出/切换"></a>登录/退出/切换</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">login     <span class="comment"># 登录</span></span><br><span class="line"><span class="built_in">logout</span>    <span class="comment"># 退出当前账户</span></span><br><span class="line">su/chuser <span class="comment"># 切换账户</span></span><br></pre></td></tr></table></figure>
+
+<p>　　在命令行窗口中输入 <code>login</code> ，再根据提示输入账号和密码，即可登录百度账号。</p>
+<p>　　还有其他登录方式，如 <code>login -bduss=&lt;BDUSS&gt;</code>。(<a href="https://github.com/iikira/BaiduPCS-Go/wiki/%E5%85%B3%E4%BA%8E-%E8%8E%B7%E5%8F%96%E7%99%BE%E5%BA%A6-BDUSS">获取bduss</a>)</p>
+<p>　　<code>logout</code> 和 <code>su</code> / <code>chuser</code> 的用法也比较简单。</p>
+<h2 id="查看当前账户及已登录账户"><a href="#查看当前账户及已登录账户" class="headerlink" title="查看当前账户及已登录账户"></a>查看当前账户及已登录账户</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">loglist</span><br></pre></td></tr></table></figure>
+<h2 id="切换目录"><a href="#切换目录" class="headerlink" title="切换目录"></a>切换目录</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> -l /Path/To/File</span><br><span class="line"><span class="comment"># cd = change directory = 切换目录。</span></span><br><span class="line"><span class="comment"># /Path/To/File = 文件路径，绝对路径或相对路径。</span></span><br><span class="line"><span class="comment"># -l: 显示目标目录下的子文件及子目录。</span></span><br></pre></td></tr></table></figure>
+
+<p>　　例：<code>cd /a/b/c/d</code></p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d /Path/To/File</span><br><span class="line"><span class="comment"># d = download = 下载</span></span><br></pre></td></tr></table></figure>
+<p>　　例：<code>d /a/b/c/d/e.txt</code>。文件路径也可以是相对路径的。</p>
+<h2 id="web功能"><a href="#web功能" class="headerlink" title="web功能"></a>web功能</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">web <span class="comment">#启用web功能</span></span><br></pre></td></tr></table></figure>
+
+<p>　　输入上述命令后，在浏览器栏输入<a href="http://localhost:8080/">localhost:8080</a>，就可以在本地查看你的网盘目录。</p>
+<p>　　很不错的功能。</p>
+<br />
+# 帮助菜单
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">h</span><br></pre></td></tr></table></figure>
+
+<p>　　输入 <code>h</code> ，可以看到帮助菜单。这里做成表格，以便观看</p>
+<table>
+<thead>
+<tr>
+<th align="center">用法</th>
+<th align="left">[global options] command [command options] [arguments…]</th>
+</tr>
+</thead>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">COMMANDS</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">tool</td>
+<td align="left">工具箱</td>
+</tr>
+<tr>
+<td align="left">help / h</td>
+<td align="left">Shows a list of commands or help for one command</td>
+</tr>
+<tr>
+<td align="left"><strong>其他：</strong></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">run</td>
+<td align="left">执行系统命令</td>
+</tr>
+<tr>
+<td align="left">sumfile / sf</td>
+<td align="left">获取文件的秒传信息</td>
+</tr>
+<tr>
+<td align="left">web</td>
+<td align="left">启用 web 客户端 (测试中)</td>
+</tr>
+<tr>
+<td align="left"><strong>百度账号：</strong></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">login</td>
+<td align="left">登录百度账号</td>
+</tr>
+<tr>
+<td align="left">loglist</td>
+<td align="left">获取当前帐号, 和所有已登录的百度帐号</td>
+</tr>
+<tr>
+<td align="left">logout</td>
+<td align="left">退出当前登录的百度帐号</td>
+</tr>
+<tr>
+<td align="left">su / chuser</td>
+<td align="left">切换已登录的百度帐号</td>
+</tr>
+<tr>
+<td align="left"><strong>百度网盘：</strong></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">cd</td>
+<td align="left">切换工作目录</td>
+</tr>
+<tr>
+<td align="left">cp</td>
+<td align="left">拷贝(复制) 文件/目录</td>
+</tr>
+<tr>
+<td align="left">download / d</td>
+<td align="left">下载文件或目录</td>
+</tr>
+<tr>
+<td align="left">ls / l / ll</td>
+<td align="left">列出当前工作目录内的文件和目录 或 指定目录内的文件和目录</td>
+</tr>
+<tr>
+<td align="left">meta</td>
+<td align="left">获取单个文件/目录的元信息 (详细信息)</td>
+</tr>
+<tr>
+<td align="left">mkdir</td>
+<td align="left">创建目录</td>
+</tr>
+<tr>
+<td align="left">mv</td>
+<td align="left">移动/重命名 文件/目录</td>
+</tr>
+<tr>
+<td align="left">offlinedl/clouddl / od</td>
+<td align="left">离线下载</td>
+</tr>
+<tr>
+<td align="left">pwd</td>
+<td align="left">输出当前所在目录 (工作目录)</td>
+</tr>
+<tr>
+<td align="left">quota</td>
+<td align="left">获取配额, 即获取网盘的总储存空间, 和已使用的储存空间</td>
+</tr>
+<tr>
+<td align="left">rapidupload / ru</td>
+<td align="left">手动秒传文件</td>
+</tr>
+<tr>
+<td align="left">rm</td>
+<td align="left">删除 单个/多个 文件/目录</td>
+</tr>
+<tr>
+<td align="left">upload / u</td>
+<td align="left">上传文件或目录</td>
+</tr>
+<tr>
+<td align="left"><strong>配置:</strong></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">config</td>
+<td align="left">显示和修改程序配置项</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">GLOBAL OPTIONS:</th>
+<th align="left">全局选项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">–verbose</td>
+<td align="left">启用调试</td>
+</tr>
+<tr>
+<td align="left">–help / -h</td>
+<td align="left">查看帮助</td>
+</tr>
+<tr>
+<td align="left">–version / -v</td>
+<td align="left">查看版本号</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Manual</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>Debian</tag>
-        <tag>apt</tag>
-        <tag>insert_disc</tag>
+        <tag>BaiduPCS-GO</tag>
+        <tag>manual</tag>
       </tags>
   </entry>
   <entry>
@@ -597,6 +550,53 @@
         <tag>Linux</tag>
         <tag>user</tag>
         <tag>sudo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>「Debian」Debian 使用 apt 安装软件时提示插入光盘</title>
+    <url>/Linux/apt-get-install-error-media-change/</url>
+    <content><![CDATA[<p><strong>简述</strong>：<code>apt</code> 是 <code>Debian</code> 的安装包管理工具。</p>
+<span id="more"></span>
+<br />
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>在VMware中成功安装Debian 9.2，进入终端运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<p>结果出现如下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Media change: please insert the disc labeled</span><br><span class="line"> &#x27;Debian GNU/Linux......&#x27;</span><br><span class="line">in the drive &#x27;/media/cdrom/&#x27; and press enter</span><br></pre></td></tr></table></figure>
+
+<br />
+
+
+
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>打开并修改文件 <code>sources.list</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+<p>找到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb cdrom:[Debian GNU/Linux ......] .......</span><br></pre></td></tr></table></figure>
+
+<p>将其注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># deb cdrom:[Debian GNU/Linux ......] .......            </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最后：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<br />
+
+<p><strong>以上</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Debian</tag>
+        <tag>apt</tag>
+        <tag>insert_disc</tag>
       </tags>
   </entry>
   <entry>
@@ -774,6 +774,69 @@
       </tags>
   </entry>
   <entry>
+    <title>「PyQt5」1. QtWidgets 模块中 Class 的通用函数/方法</title>
+    <url>/Python/PyQt5/common-methods-of-pyqt/</url>
+    <content><![CDATA[<p><strong>简述</strong>：<code>PyQt5</code>是<code>Python</code>和<code>Qt</code>库的成功融合，用来开发GUI应用程序。它有超过300类，将近6000个函数和方法，非常复杂。<code>PyQt</code>分为4和5两个大版本，又可以应用于<code>C++</code>和<code>Python</code>两种语言，所以文档资料很不好找。</p>
+<p>　　本文记录了一些<code>PyQt5.QtWidgets</code>中多数<code>Class</code>的少数<strong>较难</strong>通用函数/方法，<strong>仅为笔记</strong>。</p>
+<span id="more"></span>
+<br />
+
+<h1 id="学习文档"><a href="#学习文档" class="headerlink" title="学习文档"></a>学习文档</h1><ul>
+<li><a href="http://code.py40.com/pyqt5/14.html">PyQt5中文教程</a>：这是<a href="https://pythonspot.com/en/pyqt5/">PyQt5 Tutorials</a>的翻译，可用于入门。但只是初级的教程，而且使用的图床大概是QQ相册，许多图片无法显示。</li>
+<li><a href="https://doc.qt.io/qtforpython/index.html">Qt for Python</a>: 顾名思义，这是Python的PyQt5官方文档，但对于类的函数或方法的解释太简单，有些鸡肋。</li>
+<li><a href="https://doc.qt.io/qt-5/qtmodules.html">Qt Documentation for C++</a>：这是用于C++的PyQt5.11文档，文字解释很具体，但并不能直接应用于Python。</li>
+</ul>
+<h1 id="QtWidgets"><a href="#QtWidgets" class="headerlink" title="QtWidgets"></a>QtWidgets</h1><p>　　<code>QtWidgets</code>模块提供了一套创造经典桌面风格的用户界面的<code>UI Class</code>，包含有：</p>
+<ul>
+<li><code>QWidget</code>：</li>
+<li><code>QPushButton</code>：按键</li>
+<li><code>QComboBox</code>：多选框</li>
+<li><code>QLabel</code>：标签</li>
+<li><code>QLineEdit</code>、<code>QTextEdit</code>：单行文本框和多行文本框</li>
+<li>……</li>
+</ul>
+<h2 id="控件Text"><a href="#控件Text" class="headerlink" title="控件Text"></a>控件Text</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&lt;CONTORL_NAME&gt;.setText(<span class="string">&#x27;...&#x27;</span>)  <span class="comment"># 设置控件Text</span></span><br><span class="line">text = &lt;CONTORL_NAME&gt;.Text()   <span class="comment"># 提取控件Text</span></span><br></pre></td></tr></table></figure>
+
+<p>　　<code>&lt;CONTROL_NAME&gt;</code>指的是控件<code>Class</code>的<code>Instance</code>名。</p>
+<h2 id="控件可用性"><a href="#控件可用性" class="headerlink" title="控件可用性"></a>控件可用性</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&lt;CONTROL_NAME&gt;.setEnabled(<span class="literal">True</span>)</span><br><span class="line">&lt;CONTROL_NAME&gt;.setEnabled(<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Text在控件中的位置"><a href="#Text在控件中的位置" class="headerlink" title="Text在控件中的位置"></a>Text在控件中的位置</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> Qt</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">window</span>(<span class="params">QWidget</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        ...</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initUI</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.lbl = QLabel()</span><br><span class="line">        <span class="built_in">set</span>.lbl.setAlignment(Qt.AlignCenter)</span><br><span class="line">        <span class="comment"># or set.lbl.setStyleSheet(&quot;qproperty-alignment: &#x27;AlignCenter&#x27;;&quot;)</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>　　以<code>QLabel</code>为例，方法<code>setAlignment</code>的参数可以有：</p>
+<ul>
+<li><code>Qt.AlignLeft</code></li>
+<li><code>Qt.AlignCenter</code></li>
+<li><code>Qt.AlignRight</code></li>
+<li><code>Qt.AlignTop</code>：顶部</li>
+<li><code>Qt.AlignBottom</code>：底部</li>
+<li>……</li>
+</ul>
+<br />
+**以上！**
+<br />
+
+  
+
+  
+
+  
+
+  
+
+  
+
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>PyQt5</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>pyqt5</tag>
+        <tag>common methods</tag>
+        <tag>gui</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>「TensorFlow」2. 编译 TensorFlow C++</title>
     <url>/TensorFlow/build-tensorflow-cpp/</url>
     <content><![CDATA[<p><strong>简述</strong>：编译 <code>TensorFlow C++</code> 很费劲，需要一颗向死之心。虽然成功编译已经是半个月前的事，但我拖到现在才整理成稿。因此会存在一些纰漏，你可以多多咕果或者留言咨询我。</p>
@@ -927,66 +990,26 @@
       </tags>
   </entry>
   <entry>
-    <title>「PyQt5」1. QtWidgets 模块中 Class 的通用函数/方法</title>
-    <url>/Python/PyQt5/common-methods-of-pyqt/</url>
-    <content><![CDATA[<p><strong>简述</strong>：<code>PyQt5</code>是<code>Python</code>和<code>Qt</code>库的成功融合，用来开发GUI应用程序。它有超过300类，将近6000个函数和方法，非常复杂。<code>PyQt</code>分为4和5两个大版本，又可以应用于<code>C++</code>和<code>Python</code>两种语言，所以文档资料很不好找。</p>
-<p>　　本文记录了一些<code>PyQt5.QtWidgets</code>中多数<code>Class</code>的少数<strong>较难</strong>通用函数/方法，<strong>仅为笔记</strong>。</p>
+    <title>「C++」数据类型 char 转化为 string</title>
+    <url>/C/convert-from-char-to-string/</url>
+    <content><![CDATA[<p><strong>简述</strong>：<code>C++</code>中数据类型<code>char</code>和<code>string</code>都可以存放字符，所以存在将<code>char</code>类型转化为类型<code>string</code>的需求。</p>
 <span id="more"></span>
 <br />
 
-<h1 id="学习文档"><a href="#学习文档" class="headerlink" title="学习文档"></a>学习文档</h1><ul>
-<li><a href="http://code.py40.com/pyqt5/14.html">PyQt5中文教程</a>：这是<a href="https://pythonspot.com/en/pyqt5/">PyQt5 Tutorials</a>的翻译，可用于入门。但只是初级的教程，而且使用的图床大概是QQ相册，许多图片无法显示。</li>
-<li><a href="https://doc.qt.io/qtforpython/index.html">Qt for Python</a>: 顾名思义，这是Python的PyQt5官方文档，但对于类的函数或方法的解释太简单，有些鸡肋。</li>
-<li><a href="https://doc.qt.io/qt-5/qtmodules.html">Qt Documentation for C++</a>：这是用于C++的PyQt5.11文档，文字解释很具体，但并不能直接应用于Python。</li>
-</ul>
-<h1 id="QtWidgets"><a href="#QtWidgets" class="headerlink" title="QtWidgets"></a>QtWidgets</h1><p>　　<code>QtWidgets</code>模块提供了一套创造经典桌面风格的用户界面的<code>UI Class</code>，包含有：</p>
-<ul>
-<li><code>QWidget</code>：</li>
-<li><code>QPushButton</code>：按键</li>
-<li><code>QComboBox</code>：多选框</li>
-<li><code>QLabel</code>：标签</li>
-<li><code>QLineEdit</code>、<code>QTextEdit</code>：单行文本框和多行文本框</li>
-<li>……</li>
-</ul>
-<h2 id="控件Text"><a href="#控件Text" class="headerlink" title="控件Text"></a>控件Text</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&lt;CONTORL_NAME&gt;.setText(<span class="string">&#x27;...&#x27;</span>)  <span class="comment"># 设置控件Text</span></span><br><span class="line">text = &lt;CONTORL_NAME&gt;.Text()   <span class="comment"># 提取控件Text</span></span><br></pre></td></tr></table></figure>
+<h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h1><p>　　话不多说，先上代码。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span>  <span class="comment">//stringstream出处</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    std::string str;</span><br><span class="line">    std::stringstream ss;</span><br><span class="line"></span><br><span class="line">    ss &lt;&lt; c;</span><br><span class="line">    str = ss.<span class="built_in">str</span>();</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>　　<code>&lt;CONTROL_NAME&gt;</code>指的是控件<code>Class</code>的<code>Instance</code>名。</p>
-<h2 id="控件可用性"><a href="#控件可用性" class="headerlink" title="控件可用性"></a>控件可用性</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&lt;CONTROL_NAME&gt;.setEnabled(<span class="literal">True</span>)</span><br><span class="line">&lt;CONTROL_NAME&gt;.setEnabled(<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Text在控件中的位置"><a href="#Text在控件中的位置" class="headerlink" title="Text在控件中的位置"></a>Text在控件中的位置</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> Qt</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">window</span>(<span class="params">QWidget</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        ...</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">initUI</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.lbl = QLabel()</span><br><span class="line">        <span class="built_in">set</span>.lbl.setAlignment(Qt.AlignCenter)</span><br><span class="line">        <span class="comment"># or set.lbl.setStyleSheet(&quot;qproperty-alignment: &#x27;AlignCenter&#x27;;&quot;)</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>　　以<code>QLabel</code>为例，方法<code>setAlignment</code>的参数可以有：</p>
-<ul>
-<li><code>Qt.AlignLeft</code></li>
-<li><code>Qt.AlignCenter</code></li>
-<li><code>Qt.AlignRight</code></li>
-<li><code>Qt.AlignTop</code>：顶部</li>
-<li><code>Qt.AlignBottom</code>：底部</li>
-<li>……</li>
-</ul>
-<br />
-**以上！**
-<br />
-
-  
-
-  
-
-  
-
-  
-
-  
-
+<p>　　这里借助<code>stringstream</code>，存储变量<code>c</code>中的值，再赋给变量<code>str</code>，完成转化。</p>
+<p>　　以上！</p>
 ]]></content>
       <categories>
-        <category>Python</category>
-        <category>PyQt5</category>
+        <category>C++</category>
       </categories>
       <tags>
-        <tag>python</tag>
-        <tag>pyqt5</tag>
-        <tag>common methods</tag>
-        <tag>gui</tag>
+        <tag>C++</tag>
+        <tag>conversion</tag>
+        <tag>char</tag>
+        <tag>string</tag>
       </tags>
   </entry>
   <entry>
@@ -1029,26 +1052,62 @@
       </tags>
   </entry>
   <entry>
-    <title>「C++」数据类型 char 转化为 string</title>
-    <url>/C/convert-from-char-to-string/</url>
-    <content><![CDATA[<p><strong>简述</strong>：<code>C++</code>中数据类型<code>char</code>和<code>string</code>都可以存放字符，所以存在将<code>char</code>类型转化为类型<code>string</code>的需求。</p>
+    <title>「OS」进程和线程的区别</title>
+    <url>/OS/differences-of-process-and-thread/</url>
+    <content><![CDATA[<p><strong>简述：</strong>进程和线程是一对朦朦胧胧的概念，每次面试提问二者区别，都感觉自己没全说对。</p>
 <span id="more"></span>
+
 <br />
 
-<h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h1><p>　　话不多说，先上代码。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span>  <span class="comment">//stringstream出处</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    std::string str;</span><br><span class="line">    std::stringstream ss;</span><br><span class="line"></span><br><span class="line">    ss &lt;&lt; c;</span><br><span class="line">    str = ss.<span class="built_in">str</span>();</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>　　这里借助<code>stringstream</code>，存储变量<code>c</code>中的值，再赋给变量<code>str</code>，完成转化。</p>
-<p>　　以上！</p>
-]]></content>
+
+<h1 id="本质描述"><a href="#本质描述" class="headerlink" title="本质描述"></a>本质描述</h1><p><strong>进程（Process）和线程（Thread）都是一个时间段的描述，是 CPU 工作时间段的描述。</strong></p>
+<ul>
+<li><p>进程是 程序执行时间总和 = CPU 加载执行环境 -&gt; CPU 执行程序 -&gt; CPU 保存执行环境。</p>
+</li>
+<li><p>线程是 程序模块执行时间总和 = CPU 加载执行环境（共享进程的）-&gt; CPU 执行程序模块-&gt; CPU 保存执行环境（共享进程的）</p>
+</li>
+</ul>
+<p>进程和线程都是描述 CPU 工作的时间段，线程是更细小的时间段。</p>
+<br />
+
+
+
+<h1 id="具体区别"><a href="#具体区别" class="headerlink" title="具体区别"></a>具体区别</h1><ul>
+<li><strong>两者关系</strong>：一个进程可以包含多个线程，线程在进程下运行。</li>
+<li><strong>同侪关系</strong>：<ul>
+<li>进程间不会相互影响，一个线程崩溃将导致整个进程挂掉。</li>
+<li>进程之间是一种树的层级关系，P0 分出 P1 等等。而线程是一种平级的关系。</li>
+</ul>
+</li>
+<li><strong>数据共享</strong>：<ul>
+<li>进程有自己的内存，通过分页将虚拟地址空间映射到物理地址空间来存储数据。不同进程间<strong>数据共享很复杂</strong>，需要借助进程间通信机制（如管道，消息队列，<code>Socket</code>，共享内存和信号量等）</li>
+<li>同一进程下，不同线程间数据<strong>共享地址空间</strong>（如段、数据段、用户 ID 和组 ID、文件描述符表、当前工作目录等）。</li>
+</ul>
+</li>
+<li><strong>资源消耗</strong>：进程要比线程消耗更多的计算机资源。</li>
+<li><strong>上下文切换</strong>：对于操作系统内核而言，进程的上下文切换（<code>context switch</code>）时间消耗比线程的上下文切换更长（heavier）。</li>
+</ul>
+<br />
+
+
+
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://www.zhihu.com/question/25532384/answer/81152571">线程和进程的区别是什么？ - ZhiHu</a></li>
+<li><a href="https://www.quora.com/What-is-the-difference-between-a-process-and-a-thread#">What is the difference between a process and a thread? - Quora</a></li>
+</ul>
+<br />
+
+<p>以上！</p>
+<br />]]></content>
       <categories>
-        <category>C++</category>
+        <category>OS</category>
       </categories>
       <tags>
-        <tag>C++</tag>
-        <tag>conversion</tag>
-        <tag>char</tag>
-        <tag>string</tag>
+        <tag>OS</tag>
+        <tag>process</tag>
+        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
@@ -1258,65 +1317,6 @@
         <tag>SQL</tag>
         <tag>MySQL</tag>
         <tag>data types</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>「OS」进程和线程的区别</title>
-    <url>/OS/differences-of-process-and-thread/</url>
-    <content><![CDATA[<p><strong>简述：</strong>进程和线程是一对朦朦胧胧的概念，每次面试提问二者区别，都感觉自己没全说对。</p>
-<span id="more"></span>
-
-<br />
-
-
-
-<h1 id="本质描述"><a href="#本质描述" class="headerlink" title="本质描述"></a>本质描述</h1><p><strong>进程（Process）和线程（Thread）都是一个时间段的描述，是 CPU 工作时间段的描述。</strong></p>
-<ul>
-<li><p>进程是 程序执行时间总和 = CPU 加载执行环境 -&gt; CPU 执行程序 -&gt; CPU 保存执行环境。</p>
-</li>
-<li><p>线程是 程序模块执行时间总和 = CPU 加载执行环境（共享进程的）-&gt; CPU 执行程序模块-&gt; CPU 保存执行环境（共享进程的）</p>
-</li>
-</ul>
-<p>进程和线程都是描述 CPU 工作的时间段，线程是更细小的时间段。</p>
-<br />
-
-
-
-<h1 id="具体区别"><a href="#具体区别" class="headerlink" title="具体区别"></a>具体区别</h1><ul>
-<li><strong>两者关系</strong>：一个进程可以包含多个线程，线程在进程下运行。</li>
-<li><strong>同侪关系</strong>：<ul>
-<li>进程间不会相互影响，一个线程崩溃将导致整个进程挂掉。</li>
-<li>进程之间是一种树的层级关系，P0 分出 P1 等等。而线程是一种平级的关系。</li>
-</ul>
-</li>
-<li><strong>数据共享</strong>：<ul>
-<li>进程有自己的内存，通过分页将虚拟地址空间映射到物理地址空间来存储数据。不同进程间<strong>数据共享很复杂</strong>，需要借助进程间通信机制（如管道，消息队列，<code>Socket</code>，共享内存和信号量等）</li>
-<li>同一进程下，不同线程间数据<strong>共享地址空间</strong>（如段、数据段、用户 ID 和组 ID、文件描述符表、当前工作目录等）。</li>
-</ul>
-</li>
-<li><strong>资源消耗</strong>：进程要比线程消耗更多的计算机资源。</li>
-<li><strong>上下文切换</strong>：对于操作系统内核而言，进程的上下文切换（<code>context switch</code>）时间消耗比线程的上下文切换更长（heavier）。</li>
-</ul>
-<br />
-
-
-
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://www.zhihu.com/question/25532384/answer/81152571">线程和进程的区别是什么？ - ZhiHu</a></li>
-<li><a href="https://www.quora.com/What-is-the-difference-between-a-process-and-a-thread#">What is the difference between a process and a thread? - Quora</a></li>
-</ul>
-<br />
-
-<p>以上！</p>
-<br />]]></content>
-      <categories>
-        <category>OS</category>
-      </categories>
-      <tags>
-        <tag>OS</tag>
-        <tag>process</tag>
-        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
@@ -2195,6 +2195,59 @@
       </tags>
   </entry>
   <entry>
+    <title>「PyQt5」2. QPushButton 的 signals 和 slots</title>
+    <url>/Python/PyQt5/signals-and-slots-of-button/</url>
+    <content><![CDATA[<p><strong>简述</strong>：<code>Graphical Application</code>是事件驱动型的，和控制台或终端程序不同。所谓事件，就是诸如点击按钮、选择多选框中一条选项这样的用户行为。</p>
+<p>　　本文记录的是<code>QPushButton</code>的<code>signals</code>和<code>slots</code>，<strong>仅为笔记</strong>。</p>
+<span id="more"></span>
+<br />
+
+<h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><ul>
+<li><code>signal</code>翻译为信号，指事件发生时<code>PyQt5 widget</code>发送的信号。</li>
+<li><code>slot</code>：翻译为槽（奇奇怪怪），是任何可调用的函数或方法。</li>
+</ul>
+<p>　　对于<code>QPushButton</code>来说，<code>signal</code>是点击按钮时<code>QPushButton</code>发送的<code>Clicked()</code>信号，<code>slot</code>可以是自己编写的可调用函数/方法，也可以是<code>PyQt5</code>自有的函数/方法。</p>
+<h1 id="QPushButton的signals"><a href="#QPushButton的signals" class="headerlink" title="QPushButton的signals"></a>QPushButton的signals</h1><p>　　<a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html?highlight=qpushbutton"><code>QPushButton</code></a>具有如下signal：</p>
+<ul>
+<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.clicked"><code>clicked()</code></a>：This signal is emitted when the button is activated (i.e., pressed down then released while the mouse cursor is inside the button), when the shortcut key is typed, or when click() or animateClick() is called. Notably, this signal is not emitted if you call setDown(), setChecked() or toggle().</li>
+<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.pressed"><code>pressed()</code></a>：This signal is emitted when the button is pressed down.</li>
+<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.released"><code>released()</code></a>：This signal is emitted when the button is released.</li>
+<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.toggled"><code>toggled()</code></a>：This signal is emitted whenever a checkable button changes its state. </li>
+<li><a href="https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.destroyed"><code>destroyed()</code></a>：类被摧毁，信号不可阻断。</li>
+<li><a href="https://doc.qt.io/qt-5/qobject.html#objectNameChanged"><code>objectNameChanged()</code></a>：类名变化。</li>
+</ul>
+<p>　　前四者继承自<code>PyQt5.QtWidgets.QWidget.QAbstractButton</code>，后二者继承自<code>PyQt5.QtCore.QObject</code>。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> (QWidget, QPushButton, QApplication,</span><br><span class="line">                             QLabel, QGridLayout)</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> Qt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Exmaple</span>(<span class="params">QWidget</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        </span><br><span class="line">        self.setup_ui()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setup_ui</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.btn = QPushButton(<span class="string">&#x27;Click me&#x27;</span>)</span><br><span class="line">        self.btn.clicked.connect(self.prt)  <span class="comment"># 链接signal与slot</span></span><br><span class="line">        self.lbl = QLabel()</span><br><span class="line">        </span><br><span class="line">        self.grid = QGridLayout()</span><br><span class="line">        self.grid.addWidget(self.btn, <span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">        self.grid.addWidget(self.lbl, <span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        self.setLayout(self.grid)</span><br><span class="line">        self.grid.setSpacing(<span class="number">20</span>)  <span class="comment"># 控件与控件、控件与窗口边界之间的留白</span></span><br><span class="line">        self.setWindowTitle(<span class="string">&#x27;Example&#x27;</span>)</span><br><span class="line">        self.show()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.lbl.setText(<span class="string">&#x27;Clicked!&#x27;</span>)</span><br><span class="line">        self.lbl.setAlignment(Qt.AlignCenter)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line">    ex = Exmaple()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
+
+<p>　　<code>self.btn.clicked.connect(self.prt)</code>将<code>clicked()</code>与处理程序<code>prt()</code>链接起来，其中，<code>clicked()</code>是<code>signal</code>，<code>prt()</code>是<code>slot</code>。除此之外，还有另外一种链接办法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">PyQt5.QtCore.QObject.connect(widget, QtCore.SIGNAL(‘signalname’), slot_function)</span><br></pre></td></tr></table></figure>
+
+<br />
+**以上！**
+<br />
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>PyQt5</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>pyqt5</tag>
+        <tag>qpushbutton</tag>
+        <tag>signal</tag>
+        <tag>slot</tag>
+        <tag>event-driven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>重装系统中遇到的麻烦</title>
     <url>/Experience/questions-of-resetting-system/</url>
     <content><![CDATA[<p><strong>简述</strong>：每次重装系统都是一次全新的“体验”。这次遇到的麻烦是<code>UEFI</code>和<code>legacy</code>，<code>GPT</code>硬盘和<code>MBR</code>硬盘的冲突。重装完系统后还出现无法从硬盘启动（reboot and select proper boot device）的问题。</p>
@@ -2253,59 +2306,6 @@
         <tag>system</tag>
         <tag>GPT</tag>
         <tag>MBR</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>「PyQt5」2. QPushButton 的 signals 和 slots</title>
-    <url>/Python/PyQt5/signals-and-slots-of-button/</url>
-    <content><![CDATA[<p><strong>简述</strong>：<code>Graphical Application</code>是事件驱动型的，和控制台或终端程序不同。所谓事件，就是诸如点击按钮、选择多选框中一条选项这样的用户行为。</p>
-<p>　　本文记录的是<code>QPushButton</code>的<code>signals</code>和<code>slots</code>，<strong>仅为笔记</strong>。</p>
-<span id="more"></span>
-<br />
-
-<h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><ul>
-<li><code>signal</code>翻译为信号，指事件发生时<code>PyQt5 widget</code>发送的信号。</li>
-<li><code>slot</code>：翻译为槽（奇奇怪怪），是任何可调用的函数或方法。</li>
-</ul>
-<p>　　对于<code>QPushButton</code>来说，<code>signal</code>是点击按钮时<code>QPushButton</code>发送的<code>Clicked()</code>信号，<code>slot</code>可以是自己编写的可调用函数/方法，也可以是<code>PyQt5</code>自有的函数/方法。</p>
-<h1 id="QPushButton的signals"><a href="#QPushButton的signals" class="headerlink" title="QPushButton的signals"></a>QPushButton的signals</h1><p>　　<a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html?highlight=qpushbutton"><code>QPushButton</code></a>具有如下signal：</p>
-<ul>
-<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.clicked"><code>clicked()</code></a>：This signal is emitted when the button is activated (i.e., pressed down then released while the mouse cursor is inside the button), when the shortcut key is typed, or when click() or animateClick() is called. Notably, this signal is not emitted if you call setDown(), setChecked() or toggle().</li>
-<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.pressed"><code>pressed()</code></a>：This signal is emitted when the button is pressed down.</li>
-<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.released"><code>released()</code></a>：This signal is emitted when the button is released.</li>
-<li><a href="https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.toggled"><code>toggled()</code></a>：This signal is emitted whenever a checkable button changes its state. </li>
-<li><a href="https://doc.qt.io/qtforpython/PySide2/QtCore/QObject.html#PySide2.QtCore.PySide2.QtCore.QObject.destroyed"><code>destroyed()</code></a>：类被摧毁，信号不可阻断。</li>
-<li><a href="https://doc.qt.io/qt-5/qobject.html#objectNameChanged"><code>objectNameChanged()</code></a>：类名变化。</li>
-</ul>
-<p>　　前四者继承自<code>PyQt5.QtWidgets.QWidget.QAbstractButton</code>，后二者继承自<code>PyQt5.QtCore.QObject</code>。</p>
-<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> (QWidget, QPushButton, QApplication,</span><br><span class="line">                             QLabel, QGridLayout)</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtCore <span class="keyword">import</span> Qt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Exmaple</span>(<span class="params">QWidget</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        </span><br><span class="line">        self.setup_ui()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setup_ui</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.btn = QPushButton(<span class="string">&#x27;Click me&#x27;</span>)</span><br><span class="line">        self.btn.clicked.connect(self.prt)  <span class="comment"># 链接signal与slot</span></span><br><span class="line">        self.lbl = QLabel()</span><br><span class="line">        </span><br><span class="line">        self.grid = QGridLayout()</span><br><span class="line">        self.grid.addWidget(self.btn, <span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">        self.grid.addWidget(self.lbl, <span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        self.setLayout(self.grid)</span><br><span class="line">        self.grid.setSpacing(<span class="number">20</span>)  <span class="comment"># 控件与控件、控件与窗口边界之间的留白</span></span><br><span class="line">        self.setWindowTitle(<span class="string">&#x27;Example&#x27;</span>)</span><br><span class="line">        self.show()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.lbl.setText(<span class="string">&#x27;Clicked!&#x27;</span>)</span><br><span class="line">        self.lbl.setAlignment(Qt.AlignCenter)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line">    ex = Exmaple()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
-
-<p>　　<code>self.btn.clicked.connect(self.prt)</code>将<code>clicked()</code>与处理程序<code>prt()</code>链接起来，其中，<code>clicked()</code>是<code>signal</code>，<code>prt()</code>是<code>slot</code>。除此之外，还有另外一种链接办法：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">PyQt5.QtCore.QObject.connect(widget, QtCore.SIGNAL(‘signalname’), slot_function)</span><br></pre></td></tr></table></figure>
-
-<br />
-**以上！**
-<br />
-
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>PyQt5</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>pyqt5</tag>
-        <tag>qpushbutton</tag>
-        <tag>signal</tag>
-        <tag>slot</tag>
-        <tag>event-driven</tag>
       </tags>
   </entry>
   <entry>

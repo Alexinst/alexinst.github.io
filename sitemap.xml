@@ -9,14 +9,14 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/categories/index.html</loc>
+    <loc>https://alexinst.github.io/tags/index.html</loc>
     
     <lastmod>2021-06-14</lastmod>
     
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/tags/index.html</loc>
+    <loc>https://alexinst.github.io/categories/index.html</loc>
     
     <lastmod>2021-06-14</lastmod>
     
@@ -65,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Experience/questions-of-resetting-system/</loc>
+    <loc>https://alexinst.github.io/Python/PyQt5/signals-and-slots-of-button/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Python/PyQt5/signals-and-slots-of-button/</loc>
+    <loc>https://alexinst.github.io/Experience/questions-of-resetting-system/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
@@ -121,13 +121,6 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Manual/counting-function-of-hexo/</loc>
-    
-    <lastmod>2021-06-14</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://alexinst.github.io/C/convert-from-char-to-string/</loc>
     
     <lastmod>2021-06-14</lastmod>
@@ -135,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/SQL/data-types-of-MySQL/</loc>
+    <loc>https://alexinst.github.io/Manual/counting-function-of-hexo/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
@@ -149,6 +142,13 @@
   </url>
   
   <url>
+    <loc>https://alexinst.github.io/SQL/data-types-of-MySQL/</loc>
+    
+    <lastmod>2021-06-14</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://alexinst.github.io/SQL/basic-instructions-of-sql/</loc>
     
     <lastmod>2021-06-14</lastmod>
@@ -156,14 +156,14 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/TensorFlow/build-tensorflow-cpp/</loc>
+    <loc>https://alexinst.github.io/Python/PyQt5/common-methods-of-pyqt/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Python/PyQt5/common-methods-of-pyqt/</loc>
+    <loc>https://alexinst.github.io/TensorFlow/build-tensorflow-cpp/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
@@ -205,14 +205,14 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Manual/BaiduPCS-Go/</loc>
+    <loc>https://alexinst.github.io/Network/127-0-0-1-and-0-0-0-0/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/Network/127-0-0-1-and-0-0-0-0/</loc>
+    <loc>https://alexinst.github.io/Manual/BaiduPCS-Go/</loc>
     
     <lastmod>2021-06-14</lastmod>
     
@@ -226,20 +226,6 @@
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/BaiduPCS-GO/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/manual/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
   
   <url>
     <loc>https://alexinst.github.io/tags/network/</loc>
@@ -312,7 +298,35 @@
   </url>
   
   <url>
+    <loc>https://alexinst.github.io/tags/BaiduPCS-GO/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/manual/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://alexinst.github.io/tags/Linux/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/user/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/sudo/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -334,20 +348,6 @@
   
   <url>
     <loc>https://alexinst.github.io/tags/insert-disc/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/user/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/sudo/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -410,27 +410,6 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/tags/TensorFlow/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/bazel/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/build/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://alexinst.github.io/tags/python/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
@@ -459,7 +438,21 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/tags/Hexo-counting-function/</loc>
+    <loc>https://alexinst.github.io/tags/TensorFlow/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/bazel/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/build/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -494,7 +487,7 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/tags/data-types/</loc>
+    <loc>https://alexinst.github.io/tags/Hexo-counting-function/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -516,6 +509,13 @@
   
   <url>
     <loc>https://alexinst.github.io/tags/thread/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/data-types/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -627,34 +627,6 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/tags/experience/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/system/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/GPT/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://alexinst.github.io/tags/MBR/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://alexinst.github.io/tags/qpushbutton/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
@@ -677,6 +649,34 @@
   
   <url>
     <loc>https://alexinst.github.io/tags/event-driven/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/experience/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/system/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/GPT/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/tags/MBR/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -755,13 +755,6 @@
 
   
   <url>
-    <loc>https://alexinst.github.io/categories/Manual/</loc>
-    <lastmod>2021-06-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://alexinst.github.io/categories/Network/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
@@ -777,6 +770,13 @@
   
   <url>
     <loc>https://alexinst.github.io/categories/Hexo/</loc>
+    <lastmod>2021-06-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://alexinst.github.io/categories/Manual/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -804,14 +804,14 @@
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/categories/TensorFlow/</loc>
+    <loc>https://alexinst.github.io/categories/Python/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://alexinst.github.io/categories/Python/</loc>
+    <loc>https://alexinst.github.io/categories/TensorFlow/</loc>
     <lastmod>2021-06-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
