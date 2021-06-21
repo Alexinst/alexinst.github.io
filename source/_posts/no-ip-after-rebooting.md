@@ -10,7 +10,7 @@ categories:
 	- Linux
 ---
 
-**简述**：VPS（Ubuntu OS）重启后出现未分配 IP 地址而无法连接的问题，具体现象为 `ifconfig` 命令未显示网络接口 eth0 的信息。解决办法为通过 VNC 登陆 VPS，调用 ifconfig 启用网络接口 eth0，再调用 dhclient 向 DHCP 服务器请求 IP。
+**简述**：VPS（Ubuntu OS）重启后出现未分配 IP 地址而无法连接的问题，具体现象为 `ifconfig` 命令未显示网络接口 eth0 的信息。解决办法为通过 VNC 登陆 VPS，调用 `ifconfig` 启用网络接口 eth0，再调用 `dhclient` 向 DHCP 服务器请求 IP。
 
 
 

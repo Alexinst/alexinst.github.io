@@ -10,7 +10,7 @@ tag:
 categories:
 
     - Manual
-   
+
 ----
 
 
@@ -19,25 +19,30 @@ categories:
 <!-- more -->
 <br />
 
-# leancloud配置
-## 第一步
+# 1 leancloud配置
+## 1.1 第一步
+
 先注册。
 
-## 第二步
+## 1.2 第二步
+
 创建应用，名字随意，计价方案为**开发版**。
 ![create an app](https://res.cloudinary.com/hexo-pics/image/upload/v1536494010/hexo-2018/09/create_app.png)
 
-## 第三步
+## 1.3 第三步
+
 创建Class，名字**必须**为`Counter`，默认ACL权限设置为**无限制**。
 ![create a class](https://res.cloudinary.com/hexo-pics/image/upload/v1536494010/hexo-2018/09/create_class.png)
 
-## 第四步
+## 1.4 第四步
+
 在**设置**中获取`appid`和`appkey`，之后跳到**[NexT配置](#conf)**。
 ![appid and appkey](https://res.cloudinary.com/hexo-pics/image/upload/v1536494010/hexo-2018/09/app_id_and_key.png)
 
 <br />
 
-# NexT配置
+# 2 NexT配置
+
 打开`NexT`主题目录下的`_config.yml`，找到`leancloud_visitors`位置，并如下修改之。
 ```yml
 # Show number of visitors to each article.
@@ -55,7 +60,8 @@ leancloud_visitors:
 
 <br />
 
-# 设置web安全域名（非必须）
+# 3 设置web安全域名（非必须）
+
 在`设置->安全中心`中，`web安全域名`处填写博客域名。
 ![web secure domain](https://res.cloudinary.com/hexo-pics/image/upload/v1536494010/hexo-2018/09/web_secure_domain.png)
 

@@ -15,18 +15,18 @@ categories:
 
 <br />
 
-# SQL要点
+# 1 SQL要点
 
-## 注释
+## 1.1 注释
 
 `SQL`语句中的单行注释使用`--`，多行注释采用` /*…*/`
 
-## 代码规范
+## 1.2 代码规范
 
    [SQL编程格式的优化建议](https://zhuanlan.zhihu.com/p/27466166)
    [SQL Style Guide](https://www.dsqlstyle.guide/)
 
-## 执行顺序
+## 1.3 执行顺序
 
 `SQL` 语句有一个让大部分人都感到困惑的特性，就是：`SQL` 语句的执行顺序跟其语句的语法顺序并不一致。`SQL` 语句的语法顺序是：
 
@@ -53,9 +53,10 @@ categories:
 
 <br />
 
-# 查询语句 SELECT FROM 
+# 2 查询语句 SELECT FROM
 
-## 语句解释
+## 2.1 语句解释
+
 从表中选择数据
 ```SQL
 SELECT
@@ -63,7 +64,8 @@ SELECT
 FROM
     table_name
 ```
-## 查重语句
+## 2.2 查重语句
+
 ```SQL
 SELECT
     attribute_name
@@ -75,7 +77,8 @@ HAVING
     COUNT(attribute_name) > 1;
 ```
 
-## 前N个语句
+## 2.3 前 N 个语句
+
 ```SQL
 SELECT
     *
@@ -89,7 +92,8 @@ OFFSET
     n
 ```
 
-## CASE...END 判断语句
+## 2.4 CASE...END 判断语句
+
 ```SQL
 CASE 
     WHEN 条件1 THEN 结果1
@@ -101,9 +105,10 @@ END
 ```
 <br />
 
-# 筛选语句 WHERE 
+# 3 筛选语句 WHERE
 
-## 语法
+## 3.1 语法
+
 ```SQL
 SELECT 
     attribute_name
@@ -113,7 +118,8 @@ WHERE
     attribute_name operator value
 ```
 属性名不要求相同。
-## 运算符/通配符/操作符
+## 3.2 运算符/通配符/操作符
+
 | operator | 描述         |
 | :------- | :----------- |
 | =        | 等于         |
@@ -126,9 +132,10 @@ WHERE
 | LIKE     | 搜索某种模式 |
 <br />
 
-# 分组语句 GROUP BY
+# 4 分组语句 GROUP BY
 
-## 语句解释
+## 4.1 语句解释
+
 `GROUP BY`语句根据一个或多个列对结果集进行分组。
 
 ```SQL
@@ -145,7 +152,8 @@ GROUP BY
 
 <br />
 
-## HAVING子句
+## 4.2 HAVING子句
+
 在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与合计函数一起使用。
 示例：
 ```SQL
@@ -162,19 +170,22 @@ HAVING
 ```
 <br />
 
-# 排序语句 ORDER BY
+# 5 排序语句 ORDER BY
 
 `ORDER BY`语句用于根据指定的列对结果集进行排序。默认按照升序，添加`DESC`关键字可改成降序。
 
-## 正序、逆序
+## 5.1 正序、逆序
+
 `SQL`默认按照升序（`ASC`），添加`DESC`关键字可改成降序。
 
 
 
 <br />
 
-# 简单实操
-## 查找重复的电子邮箱（难度：简单）
+# 6 简单实操
+
+## 6.1 查找重复的电子邮箱（难度：简单）
+
 1. 创建表，表名 `accounts`，再添加 `records`。
     ```SQL
     CREATE TABLE email (
@@ -204,7 +215,7 @@ HAVING
 
 <br />
 
-## 查找大国
+## 6.2 查找大国
 
 1. 建表，表名 `world`，再添加 `records` 。
 	```SQL
@@ -241,7 +252,7 @@ HAVING
 
 <br />
 
-# 系列
+# 7系列
 
 1. {% post_link installation-and-simple-instructions-of-sql 「SQL」1. 安装 MySQL %}
 2. {% post_link basic-instructions-of-sql 「SQL」2. SQL格式规范、基本命令与范例 %} 

@@ -4,6 +4,6 @@ date: 2018-05-25 23:02:14
 ---
 
 ---
-A python coder who is lazy to try.
+A Java coder.
 
 Email: alexinst00@gmail.com

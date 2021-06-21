@@ -10,7 +10,7 @@ categories:
 	- TensorFlow
 ---
 
-**简述**：编译 `TensorFlow C++` 很费劲，需要一颗向死之心。虽然成功编译已经是半个月前的事，但我拖到现在才整理成稿。因此会存在一些纰漏，你可以多多咕果或者留言咨询我。
+**简述**：编译 `TensorFlow C++` 很费劲，需要一颗向死之心。虽然成功编译已经是半个月前的事，但我拖到现在才整理成稿。
 
 <!-- more -->
 
@@ -35,7 +35,7 @@ categories:
 
 
 
-# 安装 bazel
+# 1 安装 bazel
 
 幸好 `bazel 0.21.0`  支持 `Ubuntu 14.04` ，不然就只能砸电脑了，虽然没钱赔！
 
@@ -90,8 +90,7 @@ categories:
 
 
 
-
-# 环境初始化
+# 2 环境初始化
 
 1. 拉取 TensorFlow
 
@@ -113,7 +112,7 @@ $ ./build_all_linux.sh
 
 
 
-# 编译 TensorFlow
+# 3 编译 TensorFlow
 
 1. 配置编译要求
 
@@ -212,7 +211,7 @@ $ ./build_all_linux.sh
 
 
 
-# 测试环境
+# 4 测试环境
 
 1. 新建目录及文件
 
@@ -295,7 +294,7 @@ $ ./build_all_linux.sh
 
 <br />
 
-#  疑难杂症
+#  5 疑难杂症
 
 1. `bazel` 版本问题
 
@@ -337,7 +336,7 @@ $ ./build_all_linux.sh
 
 
 
-# 参考
+# 6 参考
 
 - [Installing Bazel on Ubuntu - bazel](https://docs.bazel.build/versions/1.1.0/install-ubuntu.html#install-on-ubuntu)
 - [Ubuntu安装TensorFlow C++ - GitHub]( https://blog.csdn.net/MOU_IT/article/details/87976152#5%E3%80%81%E9%85%8D%E7%BD%AETensorFlow%E7%9A%84%E4%BE%9D%E8%B5%96%EF%BC%9Aprotobuf%E5%92%8Ceigen )
@@ -351,7 +350,7 @@ $ ./build_all_linux.sh
 
 
 
-# 系列
+# 7 系列
 
 1. {% post_link installation-of-cuda-toolkit-and-cudnn 「TensorFlow」1. 安装 CUDA 和 cuDNN %}
 

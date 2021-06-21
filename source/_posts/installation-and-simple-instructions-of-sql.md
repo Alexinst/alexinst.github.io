@@ -18,7 +18,7 @@ categories:
 
 `OS`：`Windows 10 v1903 (18362)`
 
-# 软件安装及初始化
+# 1 软件安装及初始化
 
 ## 安装
 下载地址：[MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
@@ -104,7 +104,7 @@ categories:
 
 
 
-# 参考
+# 2 参考
 
 - [MySQL 安装 - 菜鸟教程](<https://www.runoob.com/mysql/mysql-install.html>)
 
@@ -112,13 +112,15 @@ categories:
 
 
 
-# 数据库基础知识
+# 3 数据库基础知识
 
-## 数据库定义
+## 3.1 数据库定义
+
 数据库 ( `Database` ) 是按照数据结构来组织、存储和管理数据的仓库。
 每个数据库都有一个或多个不同的 `API` 用于创建，访问，管理，搜索和复制所保存的数据。
 
-## 关系型数据库 
+## 3.2 关系型数据库
+
 所谓的关系型数据库，是建立在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据。关系数据库管理系统 ( `Relational Database Management System`, `RDMS` ) 的特点：
 
 1. 数据以表格的形式出现
@@ -127,33 +129,42 @@ categories:
 4. 许多的行和列组成一张表单
 5. 若干的表单组成 `database`
 
-## 行 (row)
+## 3.3 行 (row)
+
 >行：一行（=元组，或记录）是一组相关的数据，例如某个用户的年龄，出生日期，手机号码等数据。`
 
-## 列 (column)
+## 3.4 列 (column)
+
 >列: 一列(数据元素) 包含了相同的数据, 例如学号。`
 
-## 主键 (primary key)
+## 3.5 主键 (primary key)
+
 >主键：**主键唯一**。一个数据表中只能包含一个主键。你可以使用主键来查询数据。
 
-## 外键 (foreign key)
+## 3.6 外键 (foreign key)
+
 >外键：用于关联两个表。
 
 <br />
 
-# MySQL数据库管理系统
-## 数据库
+# 4 MySQL数据库管理系统
+
+## 4.1 数据库
+
 >数据库: 数据库是一些关联表的集合。
-## 数据表
+## 4.2 数据表
+
 >数据表: 表是数据的矩阵。在一个数据库中的表看起来像一个简单的电子表格。
-## 视图
+## 4.3 视图
+
 >虚拟的表。本身不存储数据，而是按指定的方式进行查询。
-## 存储过程
+## 4.4 存储过程
+
 >为以后的使用而保存的一条或多条MySQL语句的集合。
 
 <br />
 
-# 系列
+# 5 系列
 
 1. {% post_link installation-and-simple-instructions-of-sql 「SQL」1. 安装 MySQL %}
 2. {% post_link basic-instructions-of-sql 「SQL」2. SQL格式规范、基本命令与范例 %} 

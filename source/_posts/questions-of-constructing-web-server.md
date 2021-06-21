@@ -12,23 +12,25 @@ categories:
 
 **简述**： [**_500 lines or less_**](https://github.com/aosabook/500lines) 是一本在Github上开源的Python教程书籍，内容包含有18个Python Project。正如书名，都是低于500行代码的Project。
 
-<!-- more -->
+　　不过，项目是基于`Python2`的，而我自学的是`Python3`，因此编写过程中遇到了2个问题。
 
-　　而我尝试了一下 [A Simple Web Server](https://github.com/HT524/500LineorLess_CN/blob/master/%E7%AE%80%E6%98%93web%E6%9C%8D%E5%8A%A1%E5%99%A8%20A%20simple%20web%20server/%E7%AE%80%E6%98%93web%E6%9C%8D%E5%8A%A1%E5%99%A8.md)（这里给出中文翻译链接）这个项目，对我还是有一些难度的，毕竟对web编程懂得很少。而且，项目是基于`Python2`的，而我自学的是`Python3`，因此编写过程中遇到了2个问题。
+<br /><!-- more -->
 
-<br />
+# 1 库名变化
+## 1.1 问题
 
-# 库名变化
-## 问题
 　　原Python2程序中导入了库 `BaseHTTPServer` ，但在Python3中，该库已经改为 [`http.server`](https://docs.python.org/3/library/http.server.html) 。
-## 解决办法
+## 1.2 解决办法
+
 　　~~`import BaseHTTPServer`~~  ---> `import http.server`
 
 　　就是这样，而已。
 
 <br />
-# 网页编码
-## 问题
+# 2 网页编码
+
+## 2.1 问题
+
 　　原Python2程序中有一段类似如下的html代码， 
 
 ```html
@@ -43,7 +45,8 @@ Page = """\
 
 　　但运行时出现 `TypeError: a bytes-like object is required, not 'str'`。
 
-## 解决办法
+## 2.2 解决办法
+
 　　解决办法有两种，一种是使用前缀 `b` 将str转化为bytes；另一种是使用 `str.encode('utf-8')`。
 ```html
 Page = b"""\

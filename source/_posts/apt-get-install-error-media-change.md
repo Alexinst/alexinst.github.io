@@ -19,7 +19,7 @@ categories:
 <!-- more -->
 <br />
 
-# 问题
+# 1 问题
 在VMware中成功安装Debian 9.2，进入终端运行：
 ```bash
 $ sudo apt-get update
@@ -36,7 +36,7 @@ in the drive '/media/cdrom/' and press enter
 
 
 
-# 解决办法
+# 2 解决办法
 
 打开并修改文件 `sources.list`：
 ```bash

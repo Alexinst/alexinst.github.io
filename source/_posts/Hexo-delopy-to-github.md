@@ -18,7 +18,7 @@ categories:
 <!-- more -->
 <br />
 
-# 问题
+# 1 问题
 　　搭建Hexo博客，按照网上教程，在`hexo d`这一步出现如下错误：
 
 ```
@@ -41,8 +41,7 @@ fatal: could not read Username for 'https://github.com': No error
     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 ```
 
-
-# 解决办法
+# 2 解决办法
 
 　　编辑博客文件下的`_config.yml`。
 

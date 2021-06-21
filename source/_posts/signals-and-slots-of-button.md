@@ -16,20 +16,20 @@ categories:
     - PyQt5
 ---
 
-**简述**：`Graphical Application`是事件驱动型的，和控制台或终端程序不同。所谓事件，就是诸如点击按钮、选择多选框中一条选项这样的用户行为。
-
-　　本文记录的是`QPushButton`的`signals`和`slots`，**仅为笔记**。
+**简述**：`Graphical Application`是事件驱动型的，和控制台或终端程序不同。所谓事件，就是诸如点击按钮、选择多选框中一条选项这样的用户行为。本文记录了`QPushButton`的`signals`和`slots`用法。
 
 <!-- more -->
 <br />
 
-# 名词解释
+# 1 名词解释
+
 - `signal`翻译为信号，指事件发生时`PyQt5 widget`发送的信号。
 - `slot`：翻译为槽（奇奇怪怪），是任何可调用的函数或方法。
 
 　　对于`QPushButton`来说，`signal`是点击按钮时`QPushButton`发送的`Clicked()`信号，`slot`可以是自己编写的可调用函数/方法，也可以是`PyQt5`自有的函数/方法。
 
-# QPushButton的signals
+# 2 QPushButton的signals
+
 　　[`QPushButton`](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html?highlight=qpushbutton)具有如下signal：
 - [`clicked()`](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.clicked)：This signal is emitted when the button is activated (i.e., pressed down then released while the mouse cursor is inside the button), when the shortcut key is typed, or when click() or animateClick() is called. Notably, this signal is not emitted if you call setDown(), setChecked() or toggle().
 - [`pressed()`](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QAbstractButton.html#PySide2.QtWidgets.PySide2.QtWidgets.QAbstractButton.pressed)：This signal is emitted when the button is pressed down.
@@ -40,7 +40,8 @@ categories:
 
 　　前四者继承自`PyQt5.QtWidgets.QWidget.QAbstractButton`，后二者继承自`PyQt5.QtCore.QObject`。
 
-# 实例
+# 3 实例
+
 ```Python
 # coding=utf-8
 

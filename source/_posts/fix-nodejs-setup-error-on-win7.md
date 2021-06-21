@@ -16,7 +16,7 @@ categories:
 <!-- more -->
 <br/>
 
-# 报错信息
+# 1 报错信息
 
 ![roll back](https://res.cloudinary.com/hexo-pics/image/upload/v1538398125/hexo-2018/10/roll_back.png)
 ![wizard ended](https://res.cloudinary.com/hexo-pics/image/upload/v1538398125/hexo-2018/10/wizard_ended.png)
@@ -26,20 +26,24 @@ categories:
 　　这番报错，毫无有价值的参考信息。
 <br/>
 
-# 解决方法
-## 下载Windows Binary版本
+# 2 解决方法
+
+## 2.1 下载Windows Binary版本
+
 　　下载地址：[node-v8.12.0-win-x64](https://nodejs.org/dist/v8.12.0/node-v8.12.0-win-x64.zip)
 
 　　8.12.0 版本是`LTS（Long-term Support）`稳定版本。
 
-## 设置环境变量
+## 2.2 设置环境变量
+
 1. 选择合适位置放置解压后的Nodejs文件夹
 2. 右击`我的电脑`， 选择`属性`。
 3. 点击位于左侧的`高级系统设置`。
 4. 在跳出的对话框中，点击右下角的`环境变量`。
 5. 设置两个环境变量。示例：D:\nodejs， D:\nodejs\node_modules。
 
-## 测试
+## 2.3 测试
+
 　　按住`win`+`R`，在`运行`对话框中输入`cmd`，回车。
 
 　　在`命令行窗口`中分次输入

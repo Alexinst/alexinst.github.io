@@ -10,7 +10,7 @@ categories:
 	- Java
 ---
 
-**简述：**本文是 InfoQ 上一篇[文章](https://www.infoq.com/articles/memory_barriers_jvm_concurrency/)的译文。本人水平有限，对原文理解不足，行文中难免有不通顺之处。如有高见，还请不吝赐教。
+**简述：**本文是 InfoQ 上一篇[文章](https://www.infoq.com/articles/memory_barriers_jvm_concurrency/)的译文，文中略有不通顺之处。
 
 <!-- more -->
 
@@ -24,7 +24,7 @@ categories:
 
 
 
-# 为什么内存屏障如此重要
+# 1 为什么内存屏障如此重要
 
 访问主内存（`main memory`）一次需要数以百计个时钟周期（`clock cycle`）。CPU 使用缓存（`cache`）将内存延迟（`memory latency`）的开销降低了几个数量级。为了提高性能，缓存会对挂起（`pending`）的内存操作进行重排序（`re-order`）。也就是说，程序的读/写操作不一定按照代码顺序来执行。 
 
@@ -34,7 +34,7 @@ categories:
 
 
 
-# 内存屏障作为协议
+# 2 内存屏障作为协议
 
 JVM 并不直接显露内存屏障。（Memory barriers are not directly exposed by the JVM. ）反之，为了保证语言级的并发原语语义，它们被 JVM 插入到指令序列中。（Instead they are inserted into the instruction sequence by the JVM in order to uphold the semantics of language level concurrency primitives. ）我们将会看一些 Java 简单源码和其汇编指令，以了解其中原理。
 
@@ -120,7 +120,7 @@ HotSpot 选项 `PrintAssembly` 是 JVM 的一个诊断标志（diagnostic flag�
 
 
 
-# 内存屏障是硬件特性
+# 3 内存屏障是硬件特性
 
 本文不打算对所有内存屏障做全面概述，这太费时费力了。重要的是要认识到，内存屏障的指令在不同的硬件架构中有相当大的差异。下面是在多核 CPU Intel Xeon 上获取的连续 `volatile` 写操作的汇编指令。本文中余下所有汇编指令都是基于 Intel Xeon 的，除非另有说明。
 
@@ -176,7 +176,7 @@ HotSpot 选项 `PrintAssembly` 是 JVM 的一个诊断标志（diagnostic flag�
 
 
 
-# 隐式内存屏障
+# 4 隐式内存屏障
 
 显式的指令 `fence` 不是序列化（`serialize`）内存操作的唯一方法。让我们来看看 `Counter` 类这个例子。
 
@@ -280,7 +280,7 @@ class Counter{
 
 
 
-# 内存屏障可被消除
+# 5 内存屏障可被消除
 
 JVM 知道如何消除不必要的内存屏障。
 
@@ -317,7 +317,7 @@ JVM 知道如何消除不必要的内存屏障。
 
 
 
-# 动态编译
+# 6 动态编译
 
 静态编译器在构建时所知道的事情，动态编译器在运行时都会知道，甚至更多。更多的信息意味着更多的优化可能。例如，让我们看看 JVM 在单处理器上运行时如何使用内存屏障。下面的指令流是 `Dekker` 算法中两个连续的 `volatile` 写操作的运行时编译结果。环境是 VMWare WorkStation 里的单处理器模式 `x86` 镜像。
 
@@ -372,7 +372,7 @@ JVM 知道如何消除不必要的内存屏障。
 
 
 
-# 收尾
+# 7 收尾
 
 内存屏障是多线程编程的必要条件。它可以分为不同类型，有显式、隐式之分，也有单向、双向之分。JVM 利用内存屏障实现跨平台的 Java 内存模型。我希望本文能够帮助有经验的 JVM 开发人员更深入地了解他们的代码的工作原理。
 
@@ -380,7 +380,7 @@ JVM 知道如何消除不必要的内存屏障。
 
 
 
-# 参考
+# 8 参考
 
 - [Intel 64 and IA-32 Architectures Software Developer's Manuals](http://www.intel.com/products/processor/manuals/)
 - [IA-64 Application Instruction Set Architecture Guide](http://www.csee.umbc.edu/help/architecture/aig.pdf)

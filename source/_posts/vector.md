@@ -13,15 +13,16 @@ categories:
 <!-- more -->
 
 <br />
-# vector介绍
+# 1 vector介绍
 　　`vector`以模板(泛型)方式实现，可以保存任意类型的变量，包括用户自定义的数据类型，例如：它可以是放置整数（`Int`）类型的 `vector`、也可以是放置字符串（`string`）类型的 `vector`、或者放置用户自定类别（`user-defined class`）的`vector`。
 　　`vector`的特色有支持随机存取，在集合尾端增删元素很快，但是在集合中间增删元素比较费时。
 　　`vector`类定义于`<vector>`头文件中。
 <br />
 
 <br />
-# vector类的方法
-    ```C++
+# 2 vector类的方法
+
+```C++
 #include <vector> 
 std:: vector<TYPE> vec;
 ```
@@ -50,19 +51,23 @@ std:: vector<TYPE> vec;
     - `vec.rend()` - 回传一个`iterator`，它指向`vector`的第一个元素的前一个位置。
 
 <br />
-# 二维vector
-## 声明
-​```C++
+# 3 二维vector
+
+## 3.1 声明
+
+```C++
 std::vector<vector<TYPE>> VEC_NAME;  //VEC_NAME: 容器名
 ```
 
-## 增添元素
+## 3.2 增添元素
+
 ```C++
 std::vector<vector<TYPE> VEC_NAME;
 VEC_NAME[0].push_back(element); //在容器内的第一子容器末添加值为element的数据，容量size变大
 ```
 
-## 删减元素
+## 3.3 删减元素
+
 ```C++
 std::vector<vector<TYPE>>　VEC_NAME;
 VEC_NAME[0].pop_back();  //删减容器内第一子容器的末元素，不返回元素

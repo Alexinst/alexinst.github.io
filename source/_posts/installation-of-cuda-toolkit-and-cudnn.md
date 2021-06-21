@@ -9,7 +9,7 @@ categories:
     - TensorFlow
 ---
 
-**简述：**为了编译 `TensorFlow C++`，再次踏上 `CUDA` 之旅。这是一条不归路，但还是必须做个整理记录，因为这也许不是最后一次。
+**简述：**为了编译 `TensorFlow C++`，再次踩进 `CUDA` 之坑。这是一条不归路，但还是必须做个整理记录，因为这也许不是最后一次。
 
 <!-- more -->
 <br />
@@ -29,7 +29,7 @@ categories:
 
 <br />
 
-# 更新驱动
+# 1 更新驱动
 
 1. 打开 ”附加驱动“ (`Ubuntu 14.04 LTS`)
    - `Ubuntu-desktop` + `Ubuntu` 主题：按 `Win` 键，搜索”附加驱动“
@@ -45,7 +45,7 @@ categories:
 
 
 
-# 默认安装位置
+# 2 默认安装位置
 
 | Component    | 默认安装位置                             |
 | ------------ | -------------------------------------- |
@@ -55,7 +55,7 @@ categories:
 
 <br />
 
-# 安装 CUDA
+# 3 安装 CUDA
 
 1. 验证是否安装 `gcc`
 
@@ -185,7 +185,8 @@ categories:
 
 
 
-# 安装 cuDNN
+# 4 安装 cuDNN
+
 1. 下载 
 
    下载地址：[cuDNN 所有版本](<https://developer.nvidia.com/rdp/cudnn-archive>)
@@ -219,7 +220,7 @@ categories:
 
 <br />
 
-# 问题与解决 <span id="Q&A"></span>
+# 5 问题与解决 <span id="Q&A"></span>
 
 - 无限重复登陆；重启后黑屏，左上角有一下划线不断闪烁：
 
@@ -254,8 +255,7 @@ categories:
 
 <br />
 
-
-# 参考
+# 6 参考
 
 - [CUDA installation Guide Linux - NVIDIA](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html)
 - [cuDNN install - NVIDIA](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
@@ -266,7 +266,7 @@ categories:
 
 
 
-# 系列
+# 7 系列
 
 1. {% post_link installation-of-cuda-toolkit-and-cudnn 「TensorFlow」1. 安装 CUDA 和 cuDNN %}
 2. {% post_link build-tensorflow-cpp 「TensorFlow」2. 编译 TensorFlow C++  %}

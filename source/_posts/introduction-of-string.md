@@ -11,12 +11,12 @@ categories:
     - C++
 ---
 
-**简述**：类`string`声明于`C++ STL（Standard Template Library)`中的一个头文件`<string>`中，与`char`类型字符串相比较，它显得方便而强大。
+**简述**：C++ 类 `string` 
 
 <!-- more -->
 <br />
 
-# string简介
+# 1 string简介
 　　`<string>`是`C++`标准程序库中的一个头文件，定义了C++标准中的字符串的基本模板类`std::basic_string`及相关的模板类实例，这里不进行详细介绍。详细可查看相关 [wiki百科][1] ，以及 [cplusplus][2] 。
 
 　　其中的`string`是以`char`作为模板参数的模板类实例，把字符串的内存管理责任由`string负责`而不是由用户负责，大大减轻了`C`语言风格的字符串的麻烦。
@@ -24,7 +24,8 @@ categories:
 　　`std::basic_string`提供了大量的字符串操作函数，如比较、连接、搜索、替换、获得子串等。并可与`C`语言风格字符串双向转换。`std::basic_string`属于`C++ STL`容器类，用户自定义的类也可以作为它的模板参数，因此也适用`C++ STL Algorithm`库。
 <br />
 
-# 声明变量
+# 2 声明变量
+
 ```C++
 ......
 #include <string>
@@ -35,7 +36,8 @@ categories:
 ```
 <br />
 
-# 成员函数
+# 3 成员函数
+
 - 构造与析构
     - `string::string`（构造）
     - `string::~string`（析构）

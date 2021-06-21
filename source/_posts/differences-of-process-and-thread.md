@@ -11,7 +11,7 @@ categories:
 
 
 
-**简述：**进程和线程是一对朦朦胧胧的概念，每次面试提问二者区别，都感觉自己没全说对。
+**简述：**进程和线程是一对朦朦胧胧的概念。
 
 <!-- more -->
 
@@ -19,7 +19,7 @@ categories:
 
 
 
-# 本质描述
+# 1 本质描述
 
 **进程（Process）和线程（Thread）都是一个时间段的描述，是 CPU 工作时间段的描述。**
 
@@ -35,7 +35,7 @@ categories:
 
 
 
-# 具体区别
+# 2 具体区别
 
 - **两者关系**：一个进程可以包含多个线程，线程在进程下运行。
 - **同侪关系**：
@@ -51,8 +51,7 @@ categories:
 
 
 
-
-# 参考
+# 3 参考
 
 - [线程和进程的区别是什么？ - ZhiHu](https://www.zhihu.com/question/25532384/answer/81152571)
 - [What is the difference between a process and a thread? - Quora](https://www.quora.com/What-is-the-difference-between-a-process-and-a-thread#)
