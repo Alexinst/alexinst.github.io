@@ -89,13 +89,6 @@ pagination_dir: page
 # 主题
 theme: icarus # next
 
-# leancloud_counter_security:
-#   enable_sync: false
-#   app_id: djrw6tzY0kSDWEpHDQUW7jBp-gzGzoHsz
-#   app_key:  
-#   username: alexinst@qq.com # Will be asked while deploying if is left blank
-#   password: # Recommmended to be left blank. Will be asked while deploying if is left blank
-
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
