@@ -28,6 +28,6 @@
     "hexo-server": "^2.0.0",
     "hexo-theme-next": "^8.5.0",
     "hexo-wordcount": "^6.0.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.2"
   }
 }
